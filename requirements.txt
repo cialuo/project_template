@@ -1,0 +1,12 @@
+faker==5.0.2
+gql[all]==3.0.0a4
+xlsxwriter==1.1.2
+xlrd==1.1.0
+pypeg2==2.15.2
+py3o.template
+py3o.formats
+PyPDF2
+requests
+kafka-python
+kq
+OPA-python-client

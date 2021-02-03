@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="opa_policy_view_tree" model="ir.ui.view">
+        <field name="name">opa.policy.view.tree</field>
+        <field name="model">opa.policy</field>
+        <field name="arch" type="xml">
+            <tree string="Opa Policy" default_order='name'>
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <record id="opa_policy_view_form" model="ir.ui.view">
+        <field name="name">opa.policy.view.form</field>
+        <field name="model">opa.policy</field>
+        <field name="arch" type="xml">
+            <form string="Opa Policy">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Name" />
+                        <field name="name" class="oe_inline" />
+                    </div>
+                    <label for="policy" string="Policy" />
+                    <field name="policy" class="oe_inline" />
+                    <label for="description" string="Description" />
+                    <field name="description" class="oe_inline" />
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_opa_policy">
+        <field name="name">Policy</field>
+        <field name="res_model">opa.policy</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="menu_opa_policy" parent="base.menu_administration" name="OPA Policy" sequence="150" groups="base.group_erp_manager"
+    action="action_opa_policy" />
+</odoo>

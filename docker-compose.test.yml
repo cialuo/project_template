@@ -1,0 +1,36 @@
+version: '3'
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - db-data:/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432/tcp
+    environment:
+    - POSTGRES_PASSWORD=odoo
+    - POSTGRES_USER=odoo
+    - POSTGRES_DB=postgres
+    - PGDATA=/var/lib/postgresql/data/pgdata
+  web:
+    build:
+      context: .
+    command: bash -c "odoo --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/queue,/mnt/extra_addons"
+    depends_on:
+      - db
+    ports:
+      - "8069:8069/tcp"
+    volumes:
+      - web-data:/var/lib/odoo
+      - ./config/odoo.conf:/etc/odoo/odoo.conf
+      - ./addons:/mnt/addons
+      - ./extra_addons:/mnt/extra_addons
+  opa:
+    image: openpolicyagent/opa
+    command: run --server --log-level debug
+    ports:
+      - "8181:8181"
+volumes:
+  db-data:
+    driver: local
+  web-data:
+    driver: local
