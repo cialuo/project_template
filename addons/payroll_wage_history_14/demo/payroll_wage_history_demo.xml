@@ -1,0 +1,5 @@
+<odoo>
+    <data noupdate="1">
+        <function model="payroll.wage.history.demo" name="_init_demo_data" />
+    </data>
+</odoo>

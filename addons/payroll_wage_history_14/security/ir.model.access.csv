@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+wizard_payroll_wage_history,wizard_payroll_wage_history,payroll_wage_history_14.model_payroll_wage_history_excel_report,,1,1,1,1
+access_payroll_wage_history_demo,access_payroll_wage_history,payroll_wage_history_14.model_payroll_wage_history,,1,0,1,0
+

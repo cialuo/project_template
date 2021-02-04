@@ -1,0 +1,376 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* payroll_wage_history_14
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20201208\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-21 16:18+0000\n"
+"PO-Revision-Date: 2020-12-21 16:18+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.employee_payroll_wage_history_inherit
+msgid ""
+"<span class=\"o_stat_text\" style=\"{'font-size': '10px' }\" "
+"modifiers=\"{}\">Payroll Wage History</span>"
+msgstr ""
+"<span class=\"o_stat_text\" style=\"{'font-size': '10px' }\" "
+"modifiers=\"{}\">Lịch sử thay đổi lương</span>"
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.payroll_wage_history_wizard
+msgid "Cancel"
+msgstr "Hủy"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__changes_count
+msgid "Changes count"
+msgstr "Số lần thay đổi"
+
+#. module: payroll_wage_history_14
+#: model:ir.model,name:payroll_wage_history_14.model_res_partner
+msgid "Contact"
+msgstr "Liên hệ"
+
+#. module: payroll_wage_history_14
+#: model:ir.model,name:payroll_wage_history_14.model_hr_contract
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__contract_id
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_search
+msgid "Contract"
+msgstr "Hợp đồng"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__create_uid
+msgid "Created by"
+msgstr "Được tạo bởi"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__create_date
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__create_date
+msgid "Created on"
+msgstr "Được tạo vào lúc"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__current_wage
+msgid "Current Payroll Wage"
+msgstr "Lương hiện tại"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields.selection,name:payroll_wage_history_14.selection__payroll_wage_history_excel_report__order_by__p_current_wage_desc
+msgid "Current Wage (Desc)"
+msgstr "Lương hiện tại (Giảm dần)"
+
+#. module: payroll_wage_history_14
+#: code:addons/payroll_wage_history_14/wizards/payroll_wage_history_excel_report.py:0
+#, python-format
+msgid "Current wage"
+msgstr "Lương hiện tại"
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.internal_layout
+msgid "CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: code:addons/payroll_wage_history_14/wizards/payroll_wage_history_excel_report.py:0
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__department_id
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__department_id
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_search
+#, python-format
+msgid "Department"
+msgstr "Phòng/ban"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__difference
+msgid "Difference"
+msgstr "Chênh lệch"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_hr_contract__display_name
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history__display_name
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__display_name
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_report_payroll_wage_history_14_salary_adjustment_form__display_name
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.payroll_wage_history_wizard
+msgid "Download"
+msgstr "Tải về"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields.selection,name:payroll_wage_history_14.selection__payroll_wage_history_excel_report__order_by__p_effective_date_desc
+msgid "Effective Date (Desc)"
+msgstr "Ngày hiệu lực (Giảm dần)"
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_search
+msgid "Effective Date by Month"
+msgstr "Ngày hiệu lực theo tháng"
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_search
+msgid "Effective Date by Year"
+msgstr "Ngày hiệu lực theo năm"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__effective_date
+msgid "Effective date"
+msgstr "Ngày hiệu lực"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__effective_month
+msgid "Effective month"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: code:addons/payroll_wage_history_14/wizards/payroll_wage_history_excel_report.py:0
+#, python-format
+msgid "Effective months"
+msgstr "Số tháng hiệu lực"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__effective_year
+msgid "Effective year"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: code:addons/payroll_wage_history_14/wizards/payroll_wage_history_excel_report.py:0
+#: model:ir.model,name:payroll_wage_history_14.model_hr_employee
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__employee_id
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_search
+#, python-format
+msgid "Employee"
+msgstr "Nhân viên"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__employee_ids
+msgid "Employee(s)"
+msgstr "Nhân viên"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__data
+msgid "File"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__name
+msgid "File name"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_search
+msgid "Filters"
+msgstr "Bộ lọc"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__from_date
+msgid "From Date"
+msgstr "Từ ngày"
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_search
+msgid "Group by"
+msgstr "Nhóm theo"
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_search
+msgid "Highest Raise in 12 months"
+msgstr "Mức tăng cao nhất trong năm"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_hr_contract__id
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_hr_employee__id
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history__id
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__id
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_report_payroll_wage_history_14_salary_adjustment_form__id
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__job_id
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__job_id
+msgid "Job Title"
+msgstr "Tên vị trí"
+
+#. module: payroll_wage_history_14
+#: code:addons/payroll_wage_history_14/wizards/payroll_wage_history_excel_report.py:0
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_search
+#, python-format
+msgid "Job title"
+msgstr "Tên vị trí"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_hr_contract____last_update
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_hr_employee____last_update
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history____last_update
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report____last_update
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_report_payroll_wage_history_14_salary_adjustment_form____last_update
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Sửa lần cuối vào"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__write_uid
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__write_date
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.external_layout_standard
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.internal_layout
+msgid "Logo"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_search
+msgid "My Responsibility"
+msgstr "Do tôi phụ trách"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_res_partner__name
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_res_users__name
+msgid "Name"
+msgstr "Tên"
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_search
+msgid "No raise in 12 months"
+msgstr "Không được tăng lương trong năm"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__order_by
+msgid "Order By"
+msgstr "Sắp xếp theo"
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.external_layout_standard
+msgid ""
+"Page: <span class=\"page\"/>\n"
+" /              <span class=\"topage\"/>"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: model:ir.actions.act_window,name:payroll_wage_history_14.action_payroll_wage_history
+#: model:ir.actions.act_window,name:payroll_wage_history_14.action_payroll_wage_history_wizard
+#: model:ir.model,name:payroll_wage_history_14.model_payroll_wage_history
+#: model:ir.ui.menu,name:payroll_wage_history_14.menu_payroll_wage_history
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.employee_payroll_wage_history_inherit
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_form
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_search
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_tree
+msgid "Payroll Wage History"
+msgstr "Lịch sử thay đổi lương"
+
+#. module: payroll_wage_history_14
+#: model:ir.ui.menu,name:payroll_wage_history_14.menu_payroll_wage_history_wizard
+msgid "Payroll Wage History Report"
+msgstr "Báo cáo lịch sử thay đổi lương"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__percentage
+msgid "Percentage (%)"
+msgstr "Phần trăm (%)"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields.selection,name:payroll_wage_history_14.selection__payroll_wage_history_excel_report__order_by__p_percentage_desc
+msgid "Percentage (Desc)"
+msgstr "Phần trăm (Giảm dần)"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__previous_wage
+msgid "Previous Payroll Wage"
+msgstr "Lương lần trước"
+
+#. module: payroll_wage_history_14
+#: code:addons/payroll_wage_history_14/wizards/payroll_wage_history_excel_report.py:0
+#, python-format
+msgid "Previous Wage"
+msgstr "Lương lần trước"
+
+#. module: payroll_wage_history_14
+#: code:addons/payroll_wage_history_14/wizards/payroll_wage_history_excel_report.py:0
+#, python-format
+msgid "Raise (%)"
+msgstr "Tăng (%)"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__create_uid
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_search
+msgid "Responsible"
+msgstr "Người phụ trách"
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.view_payroll_wage_history_form
+msgid "Revision"
+msgstr "Phiên bản"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_payroll_wage_history__revision
+msgid "Revision No."
+msgstr "Phiên bản số"
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.salary_adjustment_form_inherit
+msgid "Salary Adjustment Form"
+msgstr "Mẫu tăng lương"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.constraint,message:payroll_wage_history.constraint_payroll_wage_history_revision
+msgid "There is only one revision !"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history_14.field_payroll_wage_history_excel_report__to_date
+msgid "To Date"
+msgstr "Đến ngày"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_hr_employee__wage_ids
+msgid "Wage"
+msgstr "Lương"
+
+#. module: payroll_wage_history_14
+#: model:ir.model.fields,field_description:payroll_wage_history.field_hr_employee__wage_history_rec_count
+msgid "Wage History Record(s)"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.payroll_wage_history_wizard
+msgid "Wage History Report"
+msgstr "Báo cáo lịch sử thay đổi lương"
+
+#. module: payroll_wage_history_14
+#: model:ir.model,name:payroll_wage_history_14.model_payroll_wage_history_excel_report
+msgid "payroll.wage.history.excel.report"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: model:ir.actions.report,name:payroll_wage_history_14.salary_adjustment_form
+msgid "payroll_wage_history_14.salary_adjustment_form"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: model:ir.model,name:payroll_wage_history_14.model_report_payroll_wage_history_14_salary_adjustment_form
+msgid "report.payroll_wage_history_14.salary_adjustment_form"
+msgstr ""
+
+#. module: payroll_wage_history_14
+#: model_terms:ir.ui.view,arch_db:payroll_wage_history_14.internal_layout
+msgid "Độc lập - Tự do - Hạnh phúc"
+msgstr ""

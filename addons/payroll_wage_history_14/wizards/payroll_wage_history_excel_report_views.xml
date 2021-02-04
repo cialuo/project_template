@@ -1,0 +1,38 @@
+<odoo>
+    <record id="payroll_wage_history_wizard" model="ir.ui.view">
+        <field name="name">Payroll Wage History</field>
+        <field name="model">payroll.wage.history.excel.report</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Wage History Report">
+                <group>
+                    <group>
+                        <field name="from_date" />
+                        <field name="from_date" />
+                    </group>
+                    <group>
+                        <field name="department_id" />
+                        <field name="job_id" />
+                    </group>
+                    <group>
+                        <field name="order_by" />
+                    </group>
+                </group>
+                <group>
+                    <field name="employee_ids" widget="many2many_tags" />
+                </group>
+                <footer>
+                    <button string='Download' name="download_report" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_payroll_wage_history_wizard">
+        <field name="name">Payroll Wage History</field>
+        <field name="res_model">payroll.wage.history.excel.report</field>
+        <field name="target">new</field>
+        <field name="view_mode">form</field>
+    </record>
+    <menuitem id="menu_payroll_wage_history_wizard" parent="menu_hr_payroll" name="Payroll Wage History Report" sequence="5" action="action_payroll_wage_history_wizard" />
+</odoo>

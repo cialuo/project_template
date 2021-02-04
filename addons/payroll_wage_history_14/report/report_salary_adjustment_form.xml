@@ -1,0 +1,24 @@
+<odoo>
+    <record id="paperformat_salary_adjustment_form" model="report.paperformat">
+        <field name="name">Payroll Wage Summary</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="page_width">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">30</field>
+        <field name="margin_bottom">28</field>
+        <field name="margin_right">7</field>
+        <field name="margin_left">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">15</field>
+        <field name="dpi">90</field>
+    </record>
+    <record id="salary_adjustment_form" model="ir.actions.report">
+        <field name="report_name">payroll_wage_history_14.salary_adjustment_form</field>
+        <field name="name">payroll_wage_history_14.salary_adjustment_form</field>
+        <field name="model">payroll.wage.history</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="paperformat_id" ref="payroll_wage_history_14.paperformat_salary_adjustment_form" />
+    </record>
+</odoo>

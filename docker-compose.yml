@@ -14,7 +14,7 @@ services:
   odoo:
     build:
       context: .
-    command: bash -c "odoo -i base --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons -d dev01"
+    command: bash -c "odoo -i base --load=web,attachment_s3 --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/queue-14.0 -d dev01"
     depends_on:
       - db
       - opa
@@ -65,7 +65,7 @@ services:
     ports:
       - 8081:8081
     environment:
-      - DATABASE_URL=postgres://odoo:odoo@db:5432/postgres
+      - DATABASE_URL=postgres://odoo:odoo@db:5432/postgres?ssl=disable
     depends_on:
       - db
       - hasura_db

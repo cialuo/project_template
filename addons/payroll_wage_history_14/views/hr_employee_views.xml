@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="employee_payroll_wage_history_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@icon='fa-archive']" position="before">
+                <button class="oe_stat_button" type="object" name="get_payroll_wage_history">
+                    <div role="img" class="fa fa-fw fa-circle text-success o_button_icon" aria-label="Payroll Wage History" title="Payroll Wage History" />
+                    <div class="o_field_widget o_stat_info" modifiers="{}">
+                        <field name="wage_history_rec_count" />
+                        <span class="o_stat_text" style="{'font-size': '10px' }" modifiers="{}">Payroll Wage History</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

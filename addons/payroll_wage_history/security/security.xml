@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="ir_rule_user_payroll_wage_history" model="ir.rule">
+    <field name="name">Payroll Wage History rules for user</field>
+    <field name="model_id" ref="model_payroll_wage_history"/>
+    <field name="perm_read" eval="1"/>
+    <field name="perm_write" eval="0"/>
+    <field name="perm_create" eval="0"/>
+    <field name="perm_unlink" eval="0"/>
+    <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+    <field name="groups" eval="[(4, ref('hr.group_hr_user'))]"/>
+  </record>
+  <record id="ir_rule_manager_payroll_wage_history" model="ir.rule">
+    <field name="name">Payroll Wage History rules for manager</field>
+    <field name="model_id" ref="model_payroll_wage_history"/>
+    <field name="perm_read" eval="1"/>
+    <field name="perm_write" eval="0"/>
+    <field name="perm_create" eval="0"/>
+    <field name="perm_unlink" eval="0"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+    <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]"/>
+  </record>
+</odoo>

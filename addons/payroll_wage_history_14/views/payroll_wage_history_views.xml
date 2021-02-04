@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_payroll_wage_history_tree" model="ir.ui.view">
+        <field name="name">view.payroll.wage.history.tree</field>
+        <field name="model">payroll.wage.history</field>
+        <field name="arch" type="xml">
+            <tree string="Payroll Wage History" create="false" default_order='effective_date desc, id desc, percentage, employee_id'
+      >
+<field name="revision" />
+            <field name="contract_id" />
+            <field name="employee_id" invisible="context.get('hide_employee', False)" />
+            <field name="department_id" />
+            <field name="job_id" />
+            <field name="effective_date" />
+            <field name="previous_wage" />
+            <field name="current_wage" />
+            <field name="percentage" />
+            <field name="create_uid" />
+        </tree>
+    </field>
+</record>
+<record id="view_payroll_wage_history_form" model="ir.ui.view">
+    <field name="name">view.payroll.wage.history.form</field>
+    <field name="model">payroll.wage.history</field>
+    <field name="arch" type="xml">
+        <form string="Payroll Wage History" create="false" edit="false" delete="false">
+            <sheet>
+                <div class="oe_title">
+                    <label for="revision" class="oe_edit_only" string="Revision" />
+                    <h1>
+                        <field name="revision" class="oe_inline" attrs="{'readonly': True}" />
+                    </h1>
+                    <div name="options">
+                        <div>
+                            <label class="oe_edit_only" for="contract_id" />
+                            <field name="contract_id" attrs="{'readonly': True}" />
+                        </div>
+                    </div>
+                </div>
+                <group name="group_wage_info">
+                    <field name="previous_wage" attrs="{'readonly': True}" />
+                    <field name="current_wage" attrs="{'readonly': True}" />
+                    <field name="difference" attrs="{'readonly': True}" />
+                    <field name="percentage" attrs="{'readonly': True}" />
+                </group>
+                <group name="group_employee_wage_info">
+                    <field name="employee_id" attrs="{'readonly': True}" />
+                    <field name="job_id" attrs="{'readonly': True}" />
+                    <field name="department_id" attrs="{'readonly': True}" />
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+<record id="view_payroll_wage_history_search" model="ir.ui.view">
+    <field name="name">view.payroll.wage.history.search</field>
+    <field name="model">payroll.wage.history</field>
+    <field name="arch" type="xml">
+        <search string="Payroll Wage History">
+            <field name="revision" />
+            <field name="employee_id" />
+            <field name="contract_id" />
+            <field name="job_id" />
+            <field name="department_id" />
+            <field name="create_uid" />
+            <field name="effective_date" />
+            <group string="Filters">
+                <filter string="Highest Raise in 12 months" name="filter_highest_raise" context="{'highest_raise': True}" />
+                <filter string="No raise in 12 months" name="filter_no_raise_in_12_months" context="{'no_raise_in_12_months': True}" />
+                <separator />
+                <filter string="My Responsibility" name="filter_my_responsibility" domain="[('create_uid', '=', uid)]" />
+            </group>
+            <group expand="0" string="Group by">
+                <filter name="group_by_employee_id" string="Employee" context="{'group_by': 'employee_id'}" />
+                <filter name="group_by_contract_id" string="Contract" context="{'group_by': 'contract_id'}" />
+                <filter name="group_by_current_job_title" string="Job title" context="{'group_by': 'job_id'}" />
+                <filter name="group_by_department_id" string="Department" context="{'group_by': 'department_id'}" />
+                <filter name="group_by_responsible" string="Responsible" context="{'group_by': 'create_uid'}" />
+                <filter name="group_by_effective_month" string="Effective Date by Month" context="{'group_by': 'effective_month'}" />
+                <filter name="group_by_effective_year" string="Effective Date by Year" context="{'group_by': 'effective_year'}" />
+            </group>
+        </search>
+    </field>
+</record>
+<record model="ir.actions.act_window" id="action_payroll_wage_history">
+    <field name="name">Payroll Wage History</field>
+    <field name="res_model">payroll.wage.history</field>
+    <field name="view_mode">tree,form</field>
+</record>
+<menuitem id="menu_hr_payroll" parent="hr.menu_hr_root" name="Payroll" sequence="5" />
+<menuitem id="menu_payroll_wage_history" parent="menu_hr_payroll" name="Payroll Wage History" sequence="5" action="action_payroll_wage_history" />
+
+</odoo>
