@@ -1,0 +1,74 @@
+version: '3'
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - db-data-2:/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432/tcp
+    environment:
+    - POSTGRES_PASSWORD=odoo
+    - POSTGRES_USER=odoo
+    - POSTGRES_DB=postgres
+    - PGDATA=/var/lib/postgresql/data/pgdata
+  web:
+    build:
+      context: .
+    command: bash -c "odoo -i base,base_setup --load base,base_setup --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons"
+    depends_on:
+      - db
+    ports:
+      - "8069:8069/tcp"
+    volumes:
+      - web-data-2:/var/lib/odoo
+      - ./config/odoo.conf:/etc/odoo/odoo.conf
+      - ./addons:/mnt/addons
+      - ./extra_addons:/mnt/extra_addons
+  opa:
+    image: openpolicyagent/opa
+    command: run --server --log-level debug
+    ports:
+      - "8181:8181"
+
+  yugabyte:
+    image: yugabytedb/yugabyte:latest
+    command: bash -c "bin/yugabyted start --daemon=false"
+    ports:
+      - "7000:7000"
+      - "9000:9000"
+      - "5433:5433"
+      - "9042:9042"
+    volumes:
+      - yugabyte_data:/home/yugabyte/var
+
+  graphql-engine:
+    image: hasura/graphql-engine:v1.4.0-alpha.1
+    ports:
+    - "8080:8080"
+    depends_on:
+    - "yugabyte"
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://yugabyte:yugabyte@yugabyte:5433/yugabyte
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: admin_secret
+
+  pgweb:
+    image: sosedoff/pgweb
+    ports:
+      - 8081:8081
+    environment:
+      - DATABASE_URL=postgres://yugabyte:yugabyte@yugabyte:5433/yugabyte
+    depends_on:
+      - yugabyte
+volumes:
+  db-data-2:
+    driver: local
+  web-data-2:
+    driver: local
+  yugabyte_data:
+    driver: local

@@ -3,7 +3,7 @@ services:
   db:
     image: postgres:13
     volumes:
-      - db-data:/var/lib/postgresql/data/pgdata
+      - odoo_db:/var/lib/postgresql/data/pgdata
     ports:
       - 5432/tcp
     environment:
@@ -11,16 +11,17 @@ services:
     - POSTGRES_USER=odoo
     - POSTGRES_DB=postgres
     - PGDATA=/var/lib/postgresql/data/pgdata
-  web:
+  odoo:
     build:
       context: .
-    command: bash -c "odoo --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/queue,/mnt/extra_addons"
+    command: bash -c "odoo -i base --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons -d dev01"
     depends_on:
       - db
+      - opa
     ports:
       - "8069:8069/tcp"
     volumes:
-      - web-data:/var/lib/odoo
+      - odoo_data:/var/lib/odoo
       - ./config/odoo.conf:/etc/odoo/odoo.conf
       - ./addons:/mnt/addons
       - ./extra_addons:/mnt/extra_addons
@@ -29,8 +30,50 @@ services:
     command: run --server --log-level debug
     ports:
       - "8181:8181"
+
+  hasura_db:
+    image: postgres:13
+    volumes:
+      - hasura_db:/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432/tcp
+    environment:
+    - POSTGRES_PASSWORD=odoo
+    - POSTGRES_USER=odoo
+    - POSTGRES_DB=postgres
+    - PGDATA=/var/lib/postgresql/data/pgdata
+
+  graphql-engine:
+    image: hasura/graphql-engine:v1.4.0-alpha.1
+    ports:
+      - "8080:8080"
+    depends_on:
+      - hasura_db
+      - odoo
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://odoo:odoo@hasura_db:5432/postgres
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: admin_secret
+
+  pgweb:
+    image: sosedoff/pgweb
+    ports:
+      - 8081:8081
+    environment:
+      - DATABASE_URL=postgres://odoo:odoo@db:5432/postgres
+    depends_on:
+      - db
+      - hasura_db
+
 volumes:
-  db-data:
+  odoo_db:
     driver: local
-  web-data:
+  odoo_data:
+    driver: local
+  hasura_db:
     driver: local

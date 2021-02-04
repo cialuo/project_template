@@ -10,3 +10,4 @@ requests
 kafka-python
 kq
 OPA-python-client
+meilisearch
