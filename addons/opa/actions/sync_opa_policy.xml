@@ -1,0 +1,12 @@
+<odoo>
+    <record id="sync_opa_policy_server_action" model="ir.actions.server">
+        <field name="name">Sync OPA Policies</field>
+        <field name="model_id" ref="opa.model_opa_policy" />
+        <field name="binding_model_id" ref="opa.model_opa_policy" />
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.sync_opa_policies()
+        </field>
+    </record>
+</odoo>

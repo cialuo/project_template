@@ -14,14 +14,16 @@ services:
   odoo:
     build:
       context: .
-    command: bash -c "odoo -i base --load=web,attachment_s3 --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/queue-14.0 -d dev01"
+    command: bash -c "ODOO_QUEUE_JOB_PORT=8069 odoo -i base --load=web,queue_job,attachment_s3 --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/queue-14.0,/mnt/addons/OdooEduERP-14.0 -d dev01"
     depends_on:
       - db
       - opa
+      - mail
     ports:
       - "8069:8069/tcp"
+      - "8072:8072/tcp"
     volumes:
-      - odoo_data:/var/lib/odoo
+      - odoo_data_2:/var/lib/odoo
       - ./config/odoo.conf:/etc/odoo/odoo.conf
       - ./addons:/mnt/addons
       - ./extra_addons:/mnt/extra_addons
@@ -70,10 +72,23 @@ services:
       - db
       - hasura_db
 
+  mail:
+    image: mailhog/mailhog
+    volumes:
+      - mail_data:/var/log/mailhog
+    environment:
+      # https://github.com/mailhog/MailHog/blob/master/docs/CONFIG.md
+      - MH_SMTP_BIND_ADDR=0.0.0.0:25
+      - MH_HOSTNAME=mail
+    ports:
+      - "1025:25"
+      - "8025:8025"
 volumes:
   odoo_db:
     driver: local
-  odoo_data:
+  odoo_data_2:
     driver: local
   hasura_db:
+    driver: local
+  mail_data:
     driver: local

@@ -1,0 +1,211 @@
+"use strict";
+
+var helpers = require("../node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+
+try {
+  var _react = _interopRequireDefault(require("react"));
+
+  var _reactDom = require("react-dom");
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  const Root = props => {
+    const {
+      data
+    } = props;
+    const nodes = data.map(it => {
+      const i = it.data;
+
+      if (i) {
+        return /*#__PURE__*/_react.default.createElement("li", {
+          key: i.id
+        }, i.name);
+      } else {
+        return null;
+      }
+    });
+    return /*#__PURE__*/_react.default.createElement("ul", null, nodes);
+  };
+
+  _c = Root;
+
+  const Timetable = () => {
+    return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("table", {
+      border: 5,
+      cellSpacing: 0,
+      align: "center"
+    }, /*#__PURE__*/_react.default.createElement("tbody", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50,
+      width: 100
+    }, /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("b", null, "Day/Period"), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50,
+      width: 100
+    }, /*#__PURE__*/_react.default.createElement("b", null, "I", /*#__PURE__*/_react.default.createElement("br", null), "9:30-10:20")), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50,
+      width: 100
+    }, /*#__PURE__*/_react.default.createElement("b", null, "II", /*#__PURE__*/_react.default.createElement("br", null), "10:20-11:10")), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50,
+      width: 100
+    }, /*#__PURE__*/_react.default.createElement("b", null, "III", /*#__PURE__*/_react.default.createElement("br", null), "11:10-12:00")), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50,
+      width: 100
+    }, /*#__PURE__*/_react.default.createElement("b", null, "12:00-12:40")), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50,
+      width: 100
+    }, /*#__PURE__*/_react.default.createElement("b", null, "IV", /*#__PURE__*/_react.default.createElement("br", null), "12:40-1:30")), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50,
+      width: 100
+    }, /*#__PURE__*/_react.default.createElement("b", null, "V", /*#__PURE__*/_react.default.createElement("br", null), "1:30-2:20")), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50,
+      width: 100
+    }, /*#__PURE__*/_react.default.createElement("b", null, "VI", /*#__PURE__*/_react.default.createElement("br", null), "2:20-3:10")), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50,
+      width: 100
+    }, /*#__PURE__*/_react.default.createElement("b", null, "VII", /*#__PURE__*/_react.default.createElement("br", null), "3:10-4:00"))), /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, /*#__PURE__*/_react.default.createElement("b", null, "Monday")), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Eng"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Mat"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Che"), /*#__PURE__*/_react.default.createElement("td", {
+      rowSpan: 6,
+      align: "center",
+      height: 50
+    }, /*#__PURE__*/_react.default.createElement("h2", null, "L", /*#__PURE__*/_react.default.createElement("br", null), "U", /*#__PURE__*/_react.default.createElement("br", null), "N", /*#__PURE__*/_react.default.createElement("br", null), "C", /*#__PURE__*/_react.default.createElement("br", null), "H")), /*#__PURE__*/_react.default.createElement("td", {
+      colSpan: 3,
+      align: "center",
+      height: 50
+    }, "LAB"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Phy")), /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, /*#__PURE__*/_react.default.createElement("b", null, "Tuesday")), /*#__PURE__*/_react.default.createElement("td", {
+      colSpan: 3,
+      align: "center",
+      height: 50
+    }, "LAB"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Eng"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Che"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Mat"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "SPORTS")), /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, /*#__PURE__*/_react.default.createElement("b", null, "Wednesday")), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Mat"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "phy"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Eng"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Che"), /*#__PURE__*/_react.default.createElement("td", {
+      colSpan: 3,
+      align: "center",
+      height: 50
+    }, "LIBRARY")), /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, /*#__PURE__*/_react.default.createElement("b", null, "Thursday")), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Phy"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Eng"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Che"), /*#__PURE__*/_react.default.createElement("td", {
+      colSpan: 3,
+      align: "center",
+      height: 50
+    }, "LAB"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Mat")), /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, /*#__PURE__*/_react.default.createElement("b", null, "Friday")), /*#__PURE__*/_react.default.createElement("td", {
+      colSpan: 3,
+      align: "center",
+      height: 50
+    }, "LAB"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Mat"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Che"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Eng"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Phy")), /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, /*#__PURE__*/_react.default.createElement("b", null, "Saturday")), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Eng"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Che"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "Mat"), /*#__PURE__*/_react.default.createElement("td", {
+      colSpan: 3,
+      align: "center",
+      height: 50
+    }, "SEMINAR"), /*#__PURE__*/_react.default.createElement("td", {
+      align: "center",
+      height: 50
+    }, "SPORTS")))));
+  };
+
+  _c2 = Timetable;
+  (0, _reactDom.render)( /*#__PURE__*/_react.default.createElement(Timetable, {
+    data: window.data
+  }), document.getElementById("root"));
+
+  var _c, _c2;
+
+  $RefreshReg$(_c, "Root");
+  $RefreshReg$(_c2, "Timetable");
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}

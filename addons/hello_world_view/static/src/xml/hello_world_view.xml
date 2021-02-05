@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="hello_world_view">
+        <br /><br />
+        <div id="root"></div>
+        <script type="text/javascript" src="/hello_world_view/static/src/js/hello_world_view/dist/hello_world_view.b5d51872.js" />
+    </t>
+</templates>

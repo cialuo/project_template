@@ -1,0 +1,46 @@
+"use strict";
+
+var helpers = require("../node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+
+try {
+  var _react = _interopRequireDefault(require("react"));
+
+  var _reactDom = require("react-dom");
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  const Root = props => {
+    const {
+      data
+    } = props;
+    const nodes = data.map(it => {
+      const i = it.data;
+
+      if (i) {
+        return /*#__PURE__*/_react.default.createElement("li", {
+          key: i.id
+        }, i.name);
+      } else {
+        return null;
+      }
+    });
+    return /*#__PURE__*/_react.default.createElement("ul", null, nodes);
+  };
+
+  _c = Root;
+  (0, _reactDom.render)( /*#__PURE__*/_react.default.createElement(Root, {
+    data: window.data
+  }), document.getElementById("root"));
+
+  var _c;
+
+  $RefreshReg$(_c, "Root");
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}

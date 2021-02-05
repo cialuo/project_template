@@ -361,6 +361,7 @@ const employeeTemplate = (option) => {
         res_model: "hr.employee",
         views: [[false, "form"]],
         view_mode: "form",
+        special: "cancel"
       };
       window.action_manager.do_action(action);
     }

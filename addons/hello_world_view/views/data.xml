@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="hello_world_view_1">
+        <field name="model">res.partner</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <hello_world display_contacts="1"></hello_world>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="first_hello_world_view">
+        <field name="name">Simple List</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">hello_world</field>
+        <field name="view_id" ref="hello_world_view_1"/>
+    </record>
+    <menuitem id="main_hello_world_menu" name="Hello World App"/>
+    <menuitem id="open_view" name="Open Hello World View" parent="main_hello_world_menu"
+                  action="first_hello_world_view"/>
+</odoo>

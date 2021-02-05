@@ -11,12 +11,13 @@ Description related to OPA.
     'website': "http://www.example.com",
     'category': 'Tools',
     'version': '14.0.1',
-    'depends': ['base'],
+    'depends': ['base','queue_job'],
     # This data files will be loaded at the installation (commented because file is not added in this example)
     'data': [
         'security/ir.model.access.csv',
         'views/res_config_settings.xml',
-        'views/opa_policy.xml'
+        'views/opa_policy.xml',
+        'actions/sync_opa_policy.xml',
     ],
     # This demo data files will be loaded if db initialize with demo data (commented because file is not added in this example)
     # 'demo': [

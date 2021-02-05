@@ -12,3 +12,4 @@ kq
 OPA-python-client
 meilisearch
 boto3
+gevent

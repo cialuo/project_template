@@ -15,6 +15,7 @@ Open Academy module for managing trainings:
     'depends': ['base'],
     # This data files will be loaded at the installation (commented because file is not added in this example)
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'views/course.xml',
         'views/session.xml',
