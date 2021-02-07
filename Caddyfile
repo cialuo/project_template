@@ -72,13 +72,11 @@ search.hns.edu.vn {
     }
 }
 db-erp.hpu.edu.vn {
-   proxy /pgadmin mn_pgadmin_hpu {
-        header_upstream X-Script-Name /pgadmin
+   proxy / http://27.72.248.149:8181 {
+        ## header_upstream X-Script-Name /pgadmin
         transparent
     }
-     proxy / graphql-engine-hpu:8087 {
-        websocket
-    }
+    
 }
 erp.hpu.edu.vn {
       proxy / http://27.72.249.149:8069 {
@@ -86,7 +84,7 @@ erp.hpu.edu.vn {
         transparent
     }
       proxy /longpolling http://27.72.249.149:8072 {
-        websocket
+        ## websocket
         transparent
     }
 
