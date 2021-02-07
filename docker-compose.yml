@@ -104,9 +104,9 @@ services:
   pgweb:
     image: sosedoff/pgweb
     ports:
-      - 8081:8081
+      - 8018:8018
     environment:
-      - DATABASE_URL=postgres://odoo:odoo@db:5432/postgres?ssl=disable
+      - DATABASE_URL=postgres://odoo:odoo@db:5432/postgres?sslmode=disable
     depends_on:
       - db
       - hasura_db
