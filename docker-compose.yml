@@ -35,7 +35,7 @@ services:
     restart: always
     build:
       context: .
-    command: bash -c "AWS_HOST=http://minio:9000 AWS_ACCESS_KEY_ID=minio AWS_SECRET_ACCESS_KEY=minio123 ODOO_QUEUE_JOB_PORT=8072 odoo --without-demo=all -i base,queue_job,attachment_s3 -u school --load=web,queue_job,attachment_s3 --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/queue-14.0,/mnt/addons/OdooEduERP-14.0,/mnt/extra_addons/web-13.0,/mnt/extra_addons/account-financial-reporting-14.0,/mnt/extra_addons/reporting-engine-14.0,/mnt/extra_addons/server-ux-14.0,/mnt/extra_addons/server-env-14.0,/mnt/extra_addons/connector-14.0,/mnt/extra_addons/rest-framework-14.0,/mnt/extra_addons/server-tools-14.0,/mnt/extra_addons/payroll-14.0 --workers=4"
+    command: bash -c "AWS_HOST=http://minio:9000 AWS_ACCESS_KEY_ID=minio AWS_SECRET_ACCESS_KEY=minio123 ODOO_QUEUE_JOB_PORT=8072 odoo --without-demo=all -i base,queue_job,attachment_s3 -u school --load=web,queue_job,attachment_s3 --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/queue-14.0,/mnt/addons/OdooEduERP-14.0,/mnt/extra_addons/web-13.0,/mnt/extra_addons/account-financial-reporting-14.0,/mnt/extra_addons/reporting-engine-14.0,/mnt/extra_addons/server-ux-14.0,/mnt/extra_addons/server-env-14.0,/mnt/extra_addons/connector-14.0,/mnt/extra_addons/rest-framework-14.0,/mnt/extra_addons/server-tools-14.0,/mnt/extra_addons/payroll-14.0,/mnt/extra_addons/timesheet-13.0,/mnt/extra_addons/pms-14.0,/mnt/extra_addons/project-reporting-13.0,/mnt/extra_addons/storage-14.0,/mnt/extra_addons/fleet-13.0,/mnt/extra_addons/helpdesk-13.0 --workers=4"
     depends_on:
       - db
       - opa
