@@ -1,24 +1,47 @@
 version: '3'
 services:
+  typesense:
+    image: typesense/typesense:0.18.0
+    volumes:
+      - typesense_data:/data
+    command:
+      --data-dir /data --api-key=Hu52dwsas2AdxdE
+    ports:
+      - "8108:8108"
+  minio:
+    image: minio/minio
+    command: "server /data"
+    ports:
+      - "9000:9000"
+    volumes:
+      - minio_data:/data
+      - minio_config:/root/.minio
+    environment:
+      MINIO_ACCESS_KEY: AK977HWYKCYJWFBTNZTROBZ
+      MINIO_SECRET_KEY: eMKuEavvwTUHNPX9/KCYJWFB/977hwBPTROBZ
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
   db:
     image: postgres:13
     volumes:
-      - odoo_db:/var/lib/postgresql/data/pgdata
+      - odoo_db_log:/tmp/pg_log
     ports:
       - 5432/tcp
     environment:
-    - POSTGRES_PASSWORD=odoo
-    - POSTGRES_USER=odoo
-    - POSTGRES_DB=postgres
-    - PGDATA=/var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: odoo
+      POSTGRES_USER:  odoo
+      POSTGRES_DB: postgres
   odoo:
+    restart: always
     build:
-      context: .
-    command: bash -c "ODOO_QUEUE_JOB_PORT=8069 odoo -i base --load=web,queue_job,attachment_s3 --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/queue-14.0,/mnt/addons/OdooEduERP-14.0 -d trungth"
+      context: 
+    command: bash -c "AWS_HOST=http://minio:9000 AWS_ACCESS_KEY_ID=minio AWS_SECRET_ACCESS_KEY=minio123 ODOO_QUEUE_JOB_PORT=8072 odoo --without-demo=all -i base,queue_job,attachment_s3 -u school --load=web,queue_job,attachment_s3 --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/queue-14.0,/mnt/addons/OdooEduERP-14.0 -d trungth,/mnt/extra_addons/web-13.0,/mnt/extra_addons/account-financial-reporting-14.0,/mnt/extra_addons/reporting-engine-14.0,/mnt/extra_addons/server-ux-14.0,/mnt/extra_addons/server-env-14.0,/mnt/extra_addons/connector-14.0,/mnt/extra_addons/rest-framework-14.0,/mnt/extra_addons/server-tools-14.0 --workers=4"
     depends_on:
       - db
       - opa
       - mail
+      - minio
+      - typesense
     ports:
       - "8069:8069/tcp"
       - "8072:8072/tcp"
@@ -27,6 +50,10 @@ services:
       - ./config/odoo.conf:/etc/odoo/odoo.conf
       - ./addons:/mnt/addons
       - ./extra_addons:/mnt/extra_addons
+    environment: 
+      AWS_HOST: http://minio:9000
+      AWS_ACCESS_KEY_ID: AK977HWYKCYJWFBTNZTROBZ
+      AWS_SECRET_ACCESS_KEY: eMKuEavvwTUHNPX9/KCYJWFB/977hwBPTROBZ
   opa:
     image: openpolicyagent/opa
     command: run --server --log-level debug
@@ -36,7 +63,7 @@ services:
   hasura_db:
     image: postgres:13
     volumes:
-      - hasura_db:/var/lib/postgresql/data/pgdata
+      - hasura_db_2:/var/lib/postgresql/data
     ports:
       - 5432/tcp
     environment:
@@ -61,7 +88,7 @@ services:
       HASURA_GRAPHQL_DEV_MODE: "true"
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_ADMIN_SECRET: admin_secret
-
+      HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key": "6d6849329f03a7690ba711a089ae4f58f9fd13cebebc85b4dbb534e74a83c9308c6a1db9c277521158410b9d225b8c08462dd8c47c70b7727bbd3d8035a4cd2d"}'
   pgweb:
     image: sosedoff/pgweb
     ports:
@@ -84,11 +111,17 @@ services:
       - "1025:25"
       - "8025:8025"
 volumes:
-  odoo_db:
+  odoo_db_log:
     driver: local
   odoo_data_2:
     driver: local
-  hasura_db:
+  hasura_db_2:
     driver: local
   mail_data:
+    driver: local
+  minio_data:
+    driver: local
+  minio_config:
+    driver: local
+  typesense_data:
     driver: local

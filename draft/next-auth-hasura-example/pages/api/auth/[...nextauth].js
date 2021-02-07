@@ -44,6 +44,7 @@ export default NextAuth({
     // option is set - or by default if no database is specified.
     // https://next-auth.js.org/configuration/options#jwt
     jwt: {
+        signingKey: process.env.JWT_SIGNING_PRIVATE_KEY,
         // A secret to use for key generation (you should set this explicitly)
         secret: process.env.SECRET,
         // Set to true to use encryption (default: false)
@@ -51,8 +52,12 @@ export default NextAuth({
         // You can define your own encode/decode functions for signing and encryption
         // if you want to override the default behaviour.
         encode: async({ secret, token, maxAge }) => {
+            console.log('encode')
+            console.log('secret', secret)
+            console.log('token', token)
+            console.log('maxAge', maxAge)
             const jwtClaims = {
-                "sub": token.id.toString(),
+                "sub": token.sub.toString(),
                 "name": token.name,
                 "email": token.email,
                 "iat": Date.now() / 1000,
@@ -64,11 +69,21 @@ export default NextAuth({
                     "x-hasura-user-id": token.id,
                 }
             };
-            const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256' });
+            const encodedToken = jwt.sign(jwtClaims, secret);
             return encodedToken;
         },
-        decode: async({ secret, token, maxAge }) => {
-            const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256'] });
+
+        decode: async({ token, secret }) => {
+            const signOptions = {
+                algorithms: ["HS256"],
+            };
+
+            const decodedToken = jwt.verify(
+                token,
+                secret,
+                signOptions
+            );
+
             return decodedToken;
         },
     },
@@ -92,12 +107,14 @@ export default NextAuth({
         // async signIn(user, account, profile) { return true },
         // async redirect(url, baseUrl) { return baseUrl },
         async session(session, token) {
-            const encodedToken = jwt.sign(token, process.env.SECRET, { algorithm: 'HS256' });
-            session.id = token.id;
+            console.log('session')
+            const encodedToken = jwt.sign(token, process.env.SECRET);
+            session.id = token.sub;
             session.token = encodedToken;
             return Promise.resolve(session);
         },
         async jwt(token, user, account, profile, isNewUser) {
+            console.log('user', user)
             const isUserSignedIn = user ? true : false;
             // make a http call to our graphql api
             // store this in postgres

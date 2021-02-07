@@ -45,16 +45,16 @@ class IrAttachment(models.Model):
         from the environment variable ``AWS_BUCKETNAME`` will be read.
 
         """
-        host = os.environ.get('AWS_HOST')
+        host = os.environ.get('AWS_HOST', 'http://minio:9000')
 
         # Ensure host is prefixed with a scheme (use https as default)
         if host and not urlsplit(host).scheme:
             host = 'https://%s' % host
 
         region_name = os.environ.get('AWS_REGION')
-        access_key = os.environ.get('AWS_ACCESS_KEY_ID')
-        secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
-        bucket_name = name or os.environ.get('AWS_BUCKETNAME')
+        access_key = os.environ.get('AWS_ACCESS_KEY_ID', 'minio')
+        secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY', 'minio123')
+        bucket_name = name or os.environ.get('AWS_BUCKETNAME', 'test-odoo-1')
 
         params = {
             'aws_access_key_id': access_key,

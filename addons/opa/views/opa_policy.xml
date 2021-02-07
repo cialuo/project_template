@@ -19,10 +19,14 @@
                         <label for="name" string="Name" />
                         <field name="name" class="oe_inline" attrs="{'readonly': [('id', '!=', False)]}" />
                     </div>
-                    <label for="policy" string="Policy" />
-                    <field name="policy" class="oe_inline" />
-                    <label for="description" string="Description" />
-                    <field name="description" class="oe_inline" />
+                    <div>
+                        <label for="policy" string="Policy" />
+                        <field name="policy" class="oe_inline" />
+                    </div>
+                    <div>
+                        <label for="description" string="Description" />
+                        <field name="description" class="oe_inline" />
+                    </div>
                 </sheet>
             </form>
         </field>
