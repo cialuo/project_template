@@ -11,7 +11,7 @@ class ResUsers(models.Model):
     def create(self, vals):
         """Inherit Method to create user of group teacher or parent."""
         vals.update({'employee_ids': False})
-        user_rec = super(ResUsers, self).create(vals)
+        user_rec = super(ResUsers, self.with_context(no_reset_password=True)).create(vals)
         if self._context.get('teacher_create', False):
             teacher_grp_id = self.env.ref('school.group_school_teacher')
             user_base_grp = self.env.ref('base.group_user')

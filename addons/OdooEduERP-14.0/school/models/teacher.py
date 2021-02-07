@@ -2,12 +2,12 @@
 
 from odoo import api, fields, models
 
-
 class SchoolTeacher(models.Model):
     '''Defining a Teacher information.'''
 
     _name = 'school.teacher'
     _description = 'Teacher Information'
+    _inherit = ['mail.thread.cc']
 
     employee_id = fields.Many2one('hr.employee', 'Employee ID',
                                   ondelete="cascade",
@@ -19,7 +19,7 @@ class SchoolTeacher(models.Model):
                                   responsible for.")
     stand_id = fields.Many2one('standard.standard', "Course",
                                related="standard_id.standard_id", store=True,
-                               help='''Select standard which are 
+                               help='''Select standard which are
                                assigned to teacher''')
     subject_id = fields.Many2many('subject.subject', 'subject_teacher_rel',
                                   'teacher_id', 'subject_id',

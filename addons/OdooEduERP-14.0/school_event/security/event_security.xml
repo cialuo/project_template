@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
+    <record id="event.group_event_manager" model="res.groups">
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
         <record id="student_rule_event_regi_record" model="ir.rule">
             <field name="name">Personal Event REgistation Record</field>
             <field name="model_id" ref="event.model_event_registration" />

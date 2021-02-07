@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="school.group_school_administration" model="res.groups">
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+        <record id="sales_team.group_sale_manager" model="res.groups">
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+        <record id="account.group_account_user" model="res.groups">
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
+</odoo>
