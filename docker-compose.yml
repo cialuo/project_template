@@ -14,7 +14,7 @@ services:
   odoo:
     build:
       context: .
-    command: bash -c "ODOO_QUEUE_JOB_PORT=8069 odoo -i base --load=web,queue_job,attachment_s3 --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/queue-14.0,/mnt/addons/OdooEduERP-14.0 -d dev01"
+    command: bash -c "ODOO_QUEUE_JOB_PORT=8069 odoo -i base --load=web,queue_job,attachment_s3 --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/queue-14.0,/mnt/addons/OdooEduERP-14.0 -d trungth"
     depends_on:
       - db
       - opa
@@ -65,9 +65,9 @@ services:
   pgweb:
     image: sosedoff/pgweb
     ports:
-      - 8081:8081
+      - 8018:8018
     environment:
-      - DATABASE_URL=postgres://odoo:odoo@db:5432/postgres?ssl=disable
+      - DATABASE_URL=postgres://odoo:odoo@db:5432/postgres?sslmode=disable
     depends_on:
       - db
       - hasura_db
