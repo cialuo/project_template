@@ -34,6 +34,6 @@ ENV CHECK_URL ''
 COPY run.sh /run.sh
 COPY backup.py /backup.py
 COPY wait-for-it.sh /wait-for-it.sh
-
+RUN chmod +x /run.sh
 ENTRYPOINT ["/run.sh"]
 CMD ["backup"]
