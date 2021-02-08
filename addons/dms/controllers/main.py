@@ -11,10 +11,16 @@ class OnboardingController(http.Controller):
         closed = company.documents_onboarding_state == "closed"
         check = request.env.user.has_group("dms.group_dms_manager")
         if check and not closed:
-            return request.render('dms.document_onboarding_directory_panel', {
-                "state": company.get_and_update_documents_onboarding_state(),
-                "company": company,
-            })
+            return {
+                "html": request.env.ref(
+                    "dms.document_onboarding_directory_panel"
+                ).render(
+                    {
+                        "state": company.get_and_update_documents_onboarding_state(),
+                        "company": company,
+                    }
+                )
+            }
         return {}
 
     @http.route("/dms/document_onboarding/file", auth="user", type="json")
@@ -23,10 +29,6 @@ class OnboardingController(http.Controller):
         closed = company.documents_onboarding_state == "closed"
         check = request.env.user.has_group("dms.group_dms_manager")
         if check and not closed:
-            return request.render('dms.document_onboarding_file_panel', {
-                "state": company.get_and_update_documents_onboarding_state(),
-                "company": company,
-            })
             return {
                 "html": request.env.ref("dms.document_onboarding_file_panel").render(
                     {
