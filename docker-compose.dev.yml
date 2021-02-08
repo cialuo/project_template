@@ -1,0 +1,127 @@
+version: '3'
+services:
+  typesense:
+    image: typesense/typesense:0.18.0
+    volumes:
+      - typesense_data:/data
+    command:
+      --data-dir /data --api-key=Hu52dwsas2AdxdE
+    ports:
+      - "8108:8108"
+  minio:
+    image: minio/minio
+    command: "server /data"
+    ports:
+      - "9000:9000"
+    volumes:
+      - minio_data:/data
+      - minio_config:/root/.minio
+    environment:
+      MINIO_ACCESS_KEY: AK977HWYKCYJWFBTNZTROBZ
+      MINIO_SECRET_KEY: eMKuEavvwTUHNPX9/KCYJWFB/977hwBPTROBZ
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+  db:
+    image: postgres:13
+    volumes:
+      - odoo_db_log:/tmp/pg_log
+      - odoo_db_1:/var/lib/postgresql/data
+    ports:
+      - 5432/tcp
+    environment:
+      POSTGRES_PASSWORD: odoo
+      POSTGRES_USER:  odoo
+      POSTGRES_DB: postgres
+  odoo:
+    restart: always
+    build:
+      context: .
+    command: bash -c "AWS_HOST=http://minio:9000 AWS_ACCESS_KEY_ID=minio AWS_SECRET_ACCESS_KEY=minio123 ODOO_QUEUE_JOB_PORT=8072 odoo --without-demo=all -i base,queue_job,attachment_s3 --load=web,queue_job,attachment_s3,hr_payroll,hr_payroll_account,hr_appraisal,hr_payroll_expense,hr_payroll_holidays,eduerp_base --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/queue-14.0,/mnt/extra_addons/account-financial-reporting-14.0,/mnt/extra_addons/reporting-engine-14.0,/mnt/extra_addons/server-ux-14.0,/mnt/extra_addons/server-env-14.0,/mnt/extra_addons/connector-14.0,/mnt/extra_addons/rest-framework-14.0,/mnt/extra_addons/server-tools-14.0,/mnt/extra_addons/payroll-14.0,/mnt/extra_addons/timesheet-13.0,/mnt/extra_addons/pms-14.0,/mnt/extra_addons/project-reporting-13.0,/mnt/extra_addons/storage-14.0,/mnt/extra_addons/fleet-13.0,/mnt/extra_addons/helpdesk-13.0,/mnt/addons/odoo-enterprise,/mnt/extra_addons/web-13.0,/mnt/addons/OdooEduERP-14.0 --workers=4 -d dev02"
+    depends_on:
+      - db
+      - opa
+      - mail
+      - minio
+      - typesense
+    ports:
+      - "8069:8069/tcp"
+      - "8072:8072/tcp"
+    volumes:
+      - odoo_data_2:/var/lib/odoo
+      - ./config/odoo.conf:/etc/odoo/odoo.conf
+      - ./addons:/mnt/addons
+      - ./extra_addons:/mnt/extra_addons
+    environment: 
+      AWS_HOST: http://minio:9000
+      AWS_ACCESS_KEY_ID: AK977HWYKCYJWFBTNZTROBZ
+      AWS_SECRET_ACCESS_KEY: eMKuEavvwTUHNPX9/KCYJWFB/977hwBPTROBZ
+  opa:
+    image: openpolicyagent/opa
+    command: run --server --log-level debug
+    ports:
+      - "8181:8181"
+  hasura_db:
+    image: postgres:13
+    volumes:
+      - hasura_db_2:/var/lib/postgresql/data
+    ports:
+      - 5432/tcp
+    environment:
+    - POSTGRES_PASSWORD=odoo
+    - POSTGRES_USER=odoo
+    - POSTGRES_DB=postgres
+    - PGDATA=/var/lib/postgresql/data/pgdata
+  graphql-engine:
+    image: hasura/graphql-engine:v1.4.0-alpha.1
+    ports:
+      - "8080:8080"
+    depends_on:
+      - hasura_db
+      - odoo
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://odoo:odoo@hasura_db:5432/postgres
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: admin_secret
+      HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key": "6d6849329f03a7690ba711a089ae4f58f9fd13cebebc85b4dbb534e74a83c9308c6a1db9c277521158410b9d225b8c08462dd8c47c70b7727bbd3d8035a4cd2d"}'
+  pgweb:
+    image: sosedoff/pgweb
+    ports:
+      - 8018:8018
+    environment:
+      - DATABASE_URL=postgres://odoo:odoo@db:5432/postgres?sslmode=disable
+    depends_on:
+      - db
+      - hasura_db
+  mail:
+    image: mailhog/mailhog
+    volumes:
+      - mail_data:/var/log/mailhog
+    environment:
+      # https://github.com/mailhog/MailHog/blob/master/docs/CONFIG.md
+      - MH_SMTP_BIND_ADDR=0.0.0.0:25
+      - MH_HOSTNAME=mail
+    ports:
+      - "1025:25"
+      - "8025:8025"
+volumes:
+  odoo_db_log:
+    driver: local
+  odoo_data_2:
+    driver: local
+  hasura_db_2:
+    driver: local
+  mail_data:
+    driver: local
+  minio_data:
+    driver: local
+  minio_config:
+    driver: local
+  typesense_data:
+    driver: local
+  odoo_db_1:
+    driver: local

@@ -15,7 +15,6 @@ class AccountMove(models.Model):
     book_issue = fields.Many2one('library.book.issue', 'Book issue')
     book_issue_reference = fields.Char('Book Issue Ref')
 
-
 class AccountMoveLine(models.Model):
 
     _inherit = 'account.move.line'

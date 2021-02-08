@@ -177,7 +177,8 @@ class ProductProduct(models.Model):
     availability = fields.Selection([('available', 'Available'),
                                      ('notavailable', 'Not Available')],
                                     'Book Availability', default='available',
-                                    compute="_compute_books_availablity")
+                                    compute="_compute_books_availablity",
+                                    store=True)
     back = fields.Selection([('hard', 'HardBack'), ('paper', 'PaperBack')],
                             'Binding Type', help="Shows books-binding type",
                             default='paper')

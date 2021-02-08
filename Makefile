@@ -1,11 +1,11 @@
 up:
-	ODOO_QUEUE_JOB_PORT=8069 COMPOSE_PROJECT_NAME=dev1404 MSYS_NO_PATHCONV=1 docker-compose up --remove-orphans
+	ODOO_QUEUE_JOB_PORT=8069 COMPOSE_PROJECT_NAME=dev1404 MSYS_NO_PATHCONV=1 docker-compose -f docker-compose.dev.yml up --remove-orphans
 up_with_build:
-	ODOO_QUEUE_JOB_PORT=8069 COMPOSE_PROJECT_NAME=dev1404 MSYS_NO_PATHCONV=1 docker-compose up --build --remove-orphans
+	ODOO_QUEUE_JOB_PORT=8069 COMPOSE_PROJECT_NAME=dev1404 MSYS_NO_PATHCONV=1 docker-compose -f docker-compose.dev.yml  up --build --remove-orphans
 down:
-	COMPOSE_PROJECT_NAME=dev1404 MSYS_NO_PATHCONV=1 docker-compose down 
+	COMPOSE_PROJECT_NAME=dev1404 MSYS_NO_PATHCONV=1 docker-compose -f docker-compose.dev.yml down 
 down_with_vl:
-	COMPOSE_PROJECT_NAME=dev1404 MSYS_NO_PATHCONV=1 docker-compose down --volumes
+	COMPOSE_PROJECT_NAME=dev1404 MSYS_NO_PATHCONV=1 docker-compose -f docker-compose.dev.yml down --volumes
 shell:
 	COMPOSE_PROJECT_NAME=dev1404 MSYS_NO_PATHCONV=1 docker exec -it dev1404_odoo_1 /bin/bash
 test:

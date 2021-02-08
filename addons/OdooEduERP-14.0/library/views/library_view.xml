@@ -13,7 +13,7 @@
                                 <field name="name" placeholder="Author Name" />
                             </group>
                             <separator string="Books" colspan="4" />
-                            <field name="book_ids" nolabel="1" colspan="4" domain="[('categ_id.book_categ','=',True),('is_ebook','=',False),('availability','=','available')]" />
+                            <field name="book_ids" nolabel="1" colspan="4" />
                         </page>
                         <page string="More Information">
                             <separator string="Editors" colspan="4" />
@@ -307,7 +307,6 @@
         <field name="arch" type="xml">
             <tree string="Invoice" decoration-muted="state == 'draft'">
                 <field name="name" />
-                <field name="type" />
                 <field name="invoice_date" />
                 <field name="invoice_date_due" />
                 <field name="partner_id" />
@@ -431,7 +430,7 @@
                     <separator string="Book Issue" colspan="4" col="4" />
                     <group col="4" colspan="4" attrs="{'readonly' : [('state', 'in', ['issue', 'reissue', 'return'])]}">
                         <field name="issue_code" readonly="1" />
-                        <field name="name" domain="[('availability','=','available'),('categ_id.book_categ', '=', True),('is_ebook','=',False)]" attrs="{'readonly':[('state','not in','draft')]}" options="{&quot;no_create&quot;: True}" />
+                        <field name="name" attrs="{'readonly':[('state','not in','draft')]}" options="{&quot;no_create&quot;: True}" />
                         <field name="card_id" attrs="{'readonly':[('state','not in','draft')]}" options="{&quot;no_create&quot;: True}" domain="[('state', '=', 'running')]" />
                         <field name="user" readonly="1" />
                         <field name="gt_name" invisible="True" />
@@ -784,7 +783,7 @@
                             <field name="phone" placeholder="e.g. +32.81.81.37.00" />
                             <field name="mobile" />
                             <field name="email" widget="email" />
-                            <field name="title" domain="[('domain', '=', 'contact')]" groups="base.group_no_one" options="{&quot;no_open&quot;: True}" attrs="{'invisible': [('is_company','=', True)]}" />
+                            <field name="title" groups="base.group_no_one" options="{&quot;no_open&quot;: True}" attrs="{'invisible': [('is_company','=', True)]}" />
                         </group>
                     </group>
                     <notebook colspan="4">

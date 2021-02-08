@@ -34,6 +34,7 @@ class LibraryAuthor(models.Model):
     note = fields.Text('Notes')
     editor_ids = fields.Many2many('res.partner', 'author_editor_rel',
                                   'author_id', 'parent_id', 'Editors')
+    book_ids = fields.One2many('product.product', 'author', domain="[('categ_id.book_categ','=',True),('is_ebook','=',False),('availability','=','available')]")
 
     _sql_constraints = [('name_uniq', 'unique (name)',
                          'The name of the author must be unique !')]
