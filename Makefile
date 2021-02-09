@@ -7,6 +7,6 @@ down:
 down_with_vl:
 	COMPOSE_PROJECT_NAME=dev1404 MSYS_NO_PATHCONV=1 docker-compose -f docker-compose.dev.yml down --volumes
 shell:
-	COMPOSE_PROJECT_NAME=dev1404 MSYS_NO_PATHCONV=1 docker exec -it dev1404_odoo_1 /bin/bash
+	COMPOSE_PROJECT_NAME=dev1404 MSYS_NO_PATHCONV=1 docker exec -it dev01_odoo_1 /bin/bash
 test:
 	COMPOSE_PROJECT_NAME=dev1404 MSYS_NO_PATHCONV=1 docker exec -it dev1403_odoo_1 odoo -i base,opa --addons-path=/mnt/addons,/mnt/extra_addons --without-demo=all --test-enable  --test-tags opa --log-level=test --stop-after-init -d test_opa3
