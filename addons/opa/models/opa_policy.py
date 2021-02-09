@@ -31,6 +31,8 @@ class OpaPolicy(models.Model):
             'name': name,
             'policy': values.get('policy')
         })
+        for record in self:
+            self._event('on_policy_updated').notify(record)
         return res
     
     def sync_opa_policies(self):
