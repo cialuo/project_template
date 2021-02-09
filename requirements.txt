@@ -14,3 +14,4 @@ meilisearch
 boto3
 gevent
 raven
+pandas
