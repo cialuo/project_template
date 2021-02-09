@@ -10,7 +10,7 @@ from odoo import api, models
 class AccountAnalyticLine(models.Model):
     _inherit = "account.analytic.line"
 
-    @api.onchange("project_id")
+    @api.depends("project_id")
     def onchange_project_id(self):
         # Check if 'closed' field exists (provided by project_stage_closed)
         project_stage_closed = (
@@ -35,7 +35,7 @@ class AccountAnalyticLine(models.Model):
             self.task_id = task
         return res
 
-    @api.onchange("task_id")
+    @api.depends("task_id")
     def _onchange_task_id(self):
         super()._onchange_task_id()
 

@@ -11,7 +11,7 @@
     "author": "Tecnativa, Onestein, " "Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "installable": True,
-    "depends": ["project", "web_timeline"],
+    "depends": ["project_time_scheduling", "web_timeline"],
     "data": [
         "templates/assets.xml",
         "views/project_project_view.xml",
