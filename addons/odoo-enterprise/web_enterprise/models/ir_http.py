@@ -15,7 +15,7 @@ class Http(models.AbstractModel):
         return {
             'session_info': self.session_info(),
         }
-
+""" 
     def session_info(self):
         ICP = request.env['ir.config_parameter'].sudo()
         User = request.env['res.users']
@@ -33,3 +33,4 @@ class Http(models.AbstractModel):
             result['expiration_date'] = ICP.get_param('database.expiration_date')
             result['expiration_reason'] = ICP.get_param('database.expiration_reason')
         return result
+ """
