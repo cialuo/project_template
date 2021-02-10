@@ -1,5 +1,31 @@
 version: '3'
 services:
+  sematext-agent:
+    image: sematext/agent:latest
+    environment:
+      - INFRA_TOKEN=a86a25fd-3c9b-4916-8fbd-06088328b0ea
+      - REGION=US
+    cap_add:
+      - SYS_ADMIN
+    restart: always
+    volumes:
+      - /:/hostfs:ro
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
+      - /var/run/:/var/run
+      - /sys/kernel/debug:/sys/kernel/debug
+      - /sys:/host/sys:ro
+      - /dev:/hostfs/dev:ro
+  st-logagent: 
+    image: 'sematext/logagent:latest' 
+    environment: 
+      - LOGS_TOKEN=cef6953a-11bb-49ec-8363-63a24e039ac5 
+      - REGION=US 
+    cap_add: 
+      - SYS_ADMIN  
+    restart: always 
+    volumes: 
+      - '/var/run/docker.sock:/var/run/docker.sock' 
   typesense:
     image: typesense/typesense:0.18.0
     volumes:
@@ -36,7 +62,7 @@ services:
     restart: always
     build:
       context: .
-    command: bash -c "AWS_HOST=http://minio:9000 AWS_ACCESS_KEY_ID=minio AWS_SECRET_ACCESS_KEY=minio123 ODOO_QUEUE_JOB_PORT=8072 odoo --without-demo=all -i base,queue_job,attachment_s3 --load=web,queue_job,attachment_s3 --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/queue-14.0,/mnt/extra_addons/account-financial-reporting-14.0,/mnt/extra_addons/reporting-engine-14.0,/mnt/extra_addons/server-ux-14.0,/mnt/extra_addons/server-env-14.0,/mnt/extra_addons/connector-14.0,/mnt/extra_addons/rest-framework-14.0,/mnt/extra_addons/server-tools-14.0,/mnt/extra_addons/payroll-14.0,/mnt/extra_addons/timesheet-13.0,/mnt/extra_addons/pms-14.0,/mnt/extra_addons/project-13.0,/mnt/extra_addons/project-reporting-13.0,/mnt/extra_addons/storage-14.0,/mnt/extra_addons/fleet-13.0,/mnt/extra_addons/helpdesk-13.0,/mnt/addons/odoo-enterprise,/mnt/extra_addons/web-13.0,/mnt/addons/OdooEduERP-14.0,/mnt/extra_addons/account-financial-tools-13.0,/mnt/extra_addons/bank-payment-14.0,/mnt/addons/HRMS-14/core,/mnt/addons/HRMS-14/advanced_salary,/mnt/addons/HRMS-14/appraisal,/mnt/addons/HRMS-14/attendance,/mnt/addons/HRMS-14/branch_transfer,/mnt/addons/HRMS-14/checklist,/mnt/addons/HRMS-14/dashboard,/mnt/addons/HRMS-14/disciplinary_tracking,/mnt/addons/HRMS-14/entry_exit,/mnt/addons/HRMS-14/history,/mnt/addons/HRMS-14/holidays_approval,/mnt/addons/HRMS-14/info,/mnt/addons/HRMS-14/insurance,/mnt/addons/HRMS-14/loan,/mnt/addons/HRMS-14/loan_accounting,/mnt/addons/HRMS-14/overtime,/mnt/addons/HRMS-14/reminder,/mnt/addons/HRMS-14/resignation,/mnt/addons/HRMS-14/appraisal,/mnt/addons/HRMS-14/utils,/mnt/addons/HRMS-14/vacation,/mnt/addons/HRMS-14/service_request --workers=29 -d odoo"
+    command: bash -c "AWS_HOST=http://minio:9000 AWS_ACCESS_KEY_ID=minio AWS_SECRET_ACCESS_KEY=minio123 ODOO_QUEUE_JOB_PORT=8072 odoo --without-demo=all -i base,queue_job,attachment_s3 --load=web,queue_job,attachment_s3 --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/queue-14.0,/mnt/extra_addons/account-financial-reporting-14.0,/mnt/extra_addons/reporting-engine-14.0,/mnt/extra_addons/server-ux-14.0,/mnt/extra_addons/server-env-14.0,/mnt/extra_addons/connector-14.0,/mnt/extra_addons/rest-framework-14.0,/mnt/extra_addons/server-tools-14.0,/mnt/extra_addons/payroll-14.0,/mnt/extra_addons/timesheet-13.0,/mnt/extra_addons/pms-14.0,/mnt/extra_addons/project-13.0,/mnt/extra_addons/project-reporting-13.0,/mnt/extra_addons/storage-14.0,/mnt/extra_addons/fleet-13.0,/mnt/extra_addons/helpdesk-13.0,/mnt/addons/odoo-enterprise,/mnt/extra_addons/web-13.0,/mnt/addons/OdooEduERP-14.0,/mnt/extra_addons/account-financial-tools-13.0,/mnt/extra_addons/bank-payment-14.0,/mnt/addons/commission-13.0,/mnt/addons/transport-management-system-13.0,/mnt/addons/search-engine-14.0 --workers=29"
     depends_on:
       - db
       - opa

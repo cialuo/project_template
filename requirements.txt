@@ -16,3 +16,10 @@ gevent
 raven
 pandas
 cachetools
+algoliasearch<2.0.0
+elasticsearch>=7.0.0,<8.0.0
+unidecode
+
+# tests
+vcrpy-unittest
+zoomus

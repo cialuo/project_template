@@ -1,0 +1,13 @@
+<odoo>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">module.view.kanban.patch_upgrade</field>
+        <field name="model">ir.module.module</field>
+        <field name="inherit_id" ref="base.module_view_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//a[@name='button_immediate_install']" position="replace" >
+                <a t-if="installed" name="button_immediate_upgrade" type="object" role="menuitem" class="dropdown-item">Upgrade</a>
+                <a t-if="!installed" name="button_immediate_install" type="object" role="menuitem" class="dropdown-item">Install</a>
+            </xpath>
+        </field>
+    </record>
+</odoo>
