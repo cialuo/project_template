@@ -23,3 +23,6 @@ unidecode
 # tests
 vcrpy-unittest
 zoomus
+sodapy
+num2words
+responses
