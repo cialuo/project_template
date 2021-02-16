@@ -3,7 +3,7 @@ services:
   db:
     image: postgres:13
     volumes:
-      - db-data:/var/lib/postgresql/data/pgdata
+      - test-db-data:/var/lib/postgresql/data/pgdata
     ports:
       - 5432/tcp
     environment:
@@ -11,26 +11,21 @@ services:
     - POSTGRES_USER=odoo
     - POSTGRES_DB=postgres
     - PGDATA=/var/lib/postgresql/data/pgdata
-  web:
+  test:
     build:
       context: .
-    command: bash -c "odoo --log-level=debug --addons-path=/mnt/addons,/mnt/extra_addons/queue,/mnt/extra_addons"
+    command: bash -c "odoo --workers 0 -i base,hpu_api -u hpu_api  --addons-path=/mnt/addons,/mnt/extra_addons,/mnt/addons/OdooEduERP-14.0,/mnt/extra_addons/queue-14.0,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/rest-framework-14.0 --without-demo=all --test-enable  --test-tags hpu_api --xmlrpc-port=8012 --log-level=test --stop-after-init -d test_2"
     depends_on:
       - db
     ports:
-      - "8069:8069/tcp"
+      - "8069"
     volumes:
-      - web-data:/var/lib/odoo
-      - ./config/odoo.conf:/etc/odoo/odoo.conf
+      - test-web-data:/var/lib/odoo
+      - ./config/odoo.test.conf:/etc/odoo/odoo.conf
       - ./addons:/mnt/addons
       - ./extra_addons:/mnt/extra_addons
-  opa:
-    image: openpolicyagent/opa
-    command: run --server --log-level debug
-    ports:
-      - "8181:8181"
 volumes:
-  db-data:
+  test-db-data:
     driver: local
-  web-data:
+  test-web-data:
     driver: local

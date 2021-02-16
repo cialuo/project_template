@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record
+            id="view_product_template_form_inherit"
+            model="ir.ui.view">
+            <field name="name">product.template.form.inherit
+            </field>
+            <field name="model">product.template</field>
+            <field
+                name="inherit_id"
+                ref="product.product_template_only_form_view" />
+            <field
+                name="arch"
+                type="xml">
+                <data>
+                    <field
+                        name="list_price"
+                        position="after">
+                        <field
+                            name="lst_price_net"
+                            widget="monetary"
+                            options="{'currency_field': 'currency_id'}"
+                            class="oe_inline" 
+                            attrs="{'invisible': [('sale_ok', '=', False)]}" />
+                        <field
+                            name="lst_price_brut"
+                            widget="monetary"
+                            options="{'currency_field': 'currency_id'}"
+                            class="oe_inline" 
+                            attrs="{'invisible': [('sale_ok', '=', False)]}" />
+                        <field 
+                            name="brut_net_factor" 
+                            attrs="{'invisible': [('sale_ok', '=', False)]}" />
+                    </field>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>

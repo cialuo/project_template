@@ -1,0 +1,10 @@
+# see https://github.com/Tecnativa/doodba#optodoocustomsrcaddonsyaml
+---
+ENV:
+  DEFAULT_REPO_PATTERN: https://github.com/itpp-labs/{}.git
+
+access-addons:
+  - "*"
+
+website-addons:
+  - "*"

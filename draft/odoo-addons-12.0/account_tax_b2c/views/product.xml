@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_pricelist_view" model="ir.ui.view">
+            <field name="name">Product Pricelist Form (B2C)</field>
+            <field name="model">product.pricelist</field>
+            <field name="inherit_id" ref="product.product_pricelist_view" />
+            <field name="arch" type="xml">
+                <field name="country_group_ids" position="after">
+                    <field name="b2c_pricelist" />
+                </field>
+            </field>
+        </record>
+        <record id="product_pricelist_view_tree" model="ir.ui.view">
+            <field name="name">product.pricelist.tree.inherit.product</field>
+            <field name="model">product.pricelist</field>
+            <field name="inherit_id" ref="product.product_pricelist_view_tree"/>
+            <field name="arch" type="xml">
+                <field name="currency_id" position="after">
+                    <field name="b2c_pricelist" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

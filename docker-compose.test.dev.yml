@@ -1,0 +1,33 @@
+version: '3'
+services:
+  db:
+    image: postgres:13.2-alpine
+    volumes:
+      - test-db-data:/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432/tcp
+    environment:
+    - POSTGRES_PASSWORD=odoo
+    - POSTGRES_USER=odoo
+    - POSTGRES_DB=postgres
+    - PGDATA=/var/lib/postgresql/data/pgdata
+  test:
+    image: checkraiser/odoo-14.0
+    depends_on:
+      - db
+    ports:
+      - "8069"
+    command:
+      bash -c "while ! nc -q 1 db 5432 </dev/null; do sleep 1; done &&
+      /odoo/src/odoo-bin -i base,hpu_api --logfile=/proc/self/fd/1 --workers=0 --addons-path /odoo/src/addons,/mnt/addons/odoo-enterprise,/mnt/addons,/mnt/extra_addons,/mnt/extra_addons/rest-framework-14.0,/mnt/extra_addons/queue-14.0,/mnt/extra_addons/connector-14.0,/mnt/extra_addons/server-auth-14.0,/mnt/extra_addons/server-env-14.0,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/addons/OdooEduERP-14.0,/mnt/addons/vertical-hotel-13.0,/mnt/addons/deltatech-14.0 --db_host=db --db_port=5432 --db_user=odoo --db_password=odoo --config /etc/odoo/odoo.conf --without-demo=all --test-enable  --test-tags hpu_api --log-level=test --stop-after-init -d test01"
+    volumes:
+      - "./odoo-14.0:/odoo/src"
+      - test-web-data:/var/lib/odoo
+      - ./config/odoo.test.conf:/etc/odoo/odoo.conf
+      - ./addons:/mnt/addons
+      - ./extra_addons:/mnt/extra_addons
+volumes:
+  test-db-data:
+    driver: local
+  test-web-data:
+    driver: local

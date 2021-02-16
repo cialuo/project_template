@@ -1,6 +1,6 @@
 import { Provider } from 'next-auth/client'
-import { Media, MediaContextProvider } from "../components/media"
-import './styles.css'
+import { MediaContextProvider } from "components/media"
+import 'styles/globals.css'
 
 // Use the <Provider> to improve performance and allow components that call
 // `useSession()` anywhere in your application to access the `session` object.

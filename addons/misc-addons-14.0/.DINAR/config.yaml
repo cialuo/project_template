@@ -1,0 +1,16 @@
+addons:
+  # modules to install before running tests
+  include:
+    - contacts
+
+  # modules to exclude from installation/testing
+  exclude:
+    - hw_proxy
+
+  server_wide_modules:
+    - web
+
+repo_readme:
+  addons:
+    - web_debranding
+    - web_theme_kit

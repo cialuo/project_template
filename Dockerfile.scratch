@@ -1,0 +1,128 @@
+FROM ubuntu:18.04
+
+MAINTAINER Nils Hamerlinck <nils@trobz.com>
+
+WORKDIR /
+
+##
+# APT BOOTSTRAP
+# - software-properties-common: for add-apt-repository
+# - apt-transport-https: to support accessing repos via https
+# - curl: to retrieve pgp keys
+##
+
+RUN apt-get update -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends software-properties-common apt-transport-https curl gnupg-agent dirmngr
+
+##
+# UPSTREAM PG REPO
+#
+# (to get latest postgresql-client: backwards compatible with all servers versions)
+##
+
+RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+    && echo 'deb https://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main' > /etc/apt/sources.list.d/pgdg.list
+
+##
+# APT PACKAGES
+##
+RUN apt-get update -o Acquire::AllowInsecureRepositories=true
+RUN apt-get install -y --no-install-recommends \
+    antiword \
+    ca-certificates \
+    curl \
+    dirmngr \
+    ghostscript \
+    graphviz \
+    gnupg2 \
+    less \
+    nano \
+    node-clean-css \
+    node-less \
+    poppler-utils \
+    python3 \
+    python-libxslt1 \
+    python3-pip \
+    python3-setuptools \
+    python3-renderpm \
+    libxslt1.1 \
+    xfonts-75dpi \
+    xfonts-base \
+    xz-utils \
+    tcl expect \
+    nodejs \
+    npm
+##
+# PYTHON3 AS DEFAULT
+##
+
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1 && \
+    update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+
+##
+# GOSU
+##
+
+ENV GOSU_VERSION 1.10
+
+# fix intermittent gpg server errors
+# see https://github.com/tianon/gosu/issues/35
+RUN export GNUPGHOME="$(mktemp -d)" \
+    && for server in $(shuf -e ha.pool.sks-keyservers.net \
+                               hkp://p80.pool.sks-keyservers.net:80 \
+                               keyserver.ubuntu.com \
+                               hkp://keyserver.ubuntu.com:80 \
+                               pgp.mit.edu) ; do \
+         ks_options="" && \
+         if [ -n "$http_proxy" ] ; then \
+           ks_options="--keyserver-options http-proxy=$http_proxy" ; \
+         fi \
+         && gpg --keyserver "$server" $ks_options --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && break || : ; \
+       done \
+    && curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture)" \
+    && curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture).asc" \
+    && gpg --verify /usr/local/bin/gosu.asc \
+    && rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc \
+    && chmod +x /usr/local/bin/gosu \
+    # verify that the binary works
+    && gosu nobody true
+
+##
+# LOCALE
+##
+
+# Generate locale
+
+# Set locale
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+##
+# NPM
+##
+
+RUN npm install -g less && npm cache clean
+
+##
+# PIP PACKAGES
+##
+
+ADD config/pip-requirements.odoo.txt /
+RUN pip3 install --no-cache-dir -r pip-requirements.odoo.txt
+
+ADD config/pip-requirements.project.txt /
+RUN pip3 install --no-cache-dir -r pip-requirements.project.txt
+
+##
+# CLEANING
+##
+
+RUN rm apt-requirements.txt pip-requirements.odoo.txt pip-requirements.project.txt
+
+RUN apt-get autoremove -y && \
+    apt-get autoclean
+
+##
+# ADD CODE
+##

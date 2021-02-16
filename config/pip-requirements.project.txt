@@ -1,0 +1,39 @@
+# From addons/web-addons/requirements.txt
+#bokeh==1.1.0
+# From addons/oca-rest-framework/requirements.txt
+graphql-server-core
+pyquerystring
+parse-accept-language
+graphene
+jsondiff
+cerberus
+# From addons/reporting-engine/requirements.txt
+#py3o.template
+#py3o.formats
+# From addons/addons-trobz/requirements.txt
+safe-logger==1.3.1
+# From addons/oca-connector/requirements.txt
+cachetools>=2.0.1
+# From addons/server-tools/requirements.txt
+xlwt
+openpyxl
+pygount
+xlrd
+#pysftp
+raven
+# From addons/camptocamp-odoo-cloud-platform/requirements.txt
+boto3==1.9.102
+redis==2.10.5
+python-json-logger==0.1.5
+statsd==3.2.1
+# To connect with other Scratchpay's services
+google-auth
+# generated from manifests external_dependencies
+apispec>=4.0.0
+cerberus
+jsondiff
+marshmallow
+marshmallow-objects>=2.0.0
+parse-accept-language
+pyquerystring
+polib

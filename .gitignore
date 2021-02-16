@@ -2,3 +2,6 @@ __pycache__
 node_modules/
 config/odoo.conf
 docker-compose.yml
+.parcel-cache/
+Caddyfile
+caddy.exe

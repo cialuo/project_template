@@ -1,0 +1,89 @@
+<odoo>
+    <menuitem
+        name="Backups"
+        id="menu_backup_root"
+        sequence="100"
+        web_icon="auto_backup_aws_s3,static/description/icon.png"
+        groups="base.group_user"
+    />
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.odoo.backup</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="10" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div
+                    class="app_settings_block"
+                    data-string="Backups"
+                    string="Backups"
+                    data-key="auto_backup_aws_s3"
+                    groups="base.group_system"
+                >
+                    <h2>S3 Storage</h2>
+                    <div class="row mt16 o_settings_container" name="backup_services">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                          &amp;nbsp;
+                        </div>
+                            <div class="o_setting_right_pane">
+                                <div class="text-muted">
+                                    S3 credentials here
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16 row">
+                                        <label
+                                            for="backup_s3_aws_url_endpoint"
+                                            class="col-4 col-lg-4 o_light_label"
+                                        />
+                                        <field
+                                            name="backup_s3_aws_url_endpoint"
+                                            nolabel="1"
+                                        />
+                                        
+                                        <label
+                                            for="backup_s3_aws_access_key_id"
+                                            string="Access Key ID"
+                                            class="col-4 col-lg-4 o_light_label"
+                                        />
+                                        <field
+                                            name="backup_s3_aws_access_key_id"
+                                            nolabel="1"
+                                        />
+                                        <label
+                                            for="backup_s3_aws_secret_access_key"
+                                            string="Secret Access Key"
+                                            class="col-4 col-lg-4 o_light_label"
+                                        />
+                                        <field
+                                            name="backup_s3_aws_secret_access_key"
+                                            password="1"
+                                            nolabel="1"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="action_backup_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="res_config_settings_view_form" />
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'auto_backup_aws_s3'}</field>
+    </record>
+    <menuitem
+        name="Settings"
+        id="menu_settings"
+        parent="menu_backup_root"
+        action="action_backup_settings"
+        groups="base.group_system"
+        sequence="100"
+    />
+</odoo>
