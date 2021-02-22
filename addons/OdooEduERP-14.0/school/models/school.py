@@ -39,6 +39,8 @@ class AcademicYear(models.Model):
                             help='Ending of academic year')
     month_ids = fields.One2many('academic.month', 'year_id', 'Months',
                                 help="Related Academic months")
+    week_ids = fields.One2many('academic.week', 'year_id', 'Weeks',
+                                help="Related Academic weeks")
     grade_id = fields.Many2one('grade.master', "Grade", help='Grade')
     current = fields.Boolean('Current', help="Set Active Current Year")
     description = fields.Text('Description', help='Description')
@@ -74,6 +76,28 @@ class AcademicYear(models.Model):
                 })
                 start_date = start_date + relativedelta(months=interval)
 
+    def generate_academic_week(self):
+        """Generate academic weeks."""
+        interval = 7
+        week_num = 1
+        week_obj = self.env['academic.week']
+        for data in self:
+            start_date = data.date_start
+            while start_date < data.date_stop:
+                end_date = start_date + relativedelta(days=interval)
+                if end_date > data.date_stop:
+                    end_date = data.date_stop
+                week_obj.create({
+                    'name': "W{}".format(str(week_num)),
+                    'code': "{}/{}".format(str(week_num), start_date.strftime('%Y')),
+                    'date_start': start_date,
+                    'date_stop': end_date,
+                    'year_id': data.id,
+                    'position': week_num,
+                })
+                start_date = start_date + relativedelta(days=interval)
+                week_num = week_num + 1
+
     @api.constrains('date_start', 'date_stop')
     def _check_academic_year(self):
         '''Method to check start date should be greater than end date
@@ -103,6 +127,54 @@ class AcademicYear(models.Model):
         if current_year_rec >= 2:
             raise ValidationError(_(
                             "Error! You cannot set two current year active!"))
+
+
+class AcademicWeek(models.Model):
+    '''Defining a week of an academic year.'''
+
+    _name = "academic.week"
+    _description = "Academic Week"
+    _order = "date_start"
+
+    name = fields.Char('Name', required=True, help='Name of Academic week')
+    code = fields.Char('Code', required=True, help='Code of Academic week')
+    position = fields.Integer('Position', required=True, help='Position of Academic week')
+    date_start = fields.Date('Start of Period', required=True,
+                             help='Starting of academic week')
+    date_stop = fields.Date('End of Period', required=True,
+                            help='Ending of academic week')
+    year_id = fields.Many2one('academic.year', 'Academic Year', required=True,
+                              help="Related academic year ")
+    description = fields.Text('Description', help='Description')
+
+    _sql_constraints = [
+        ('week_unique', 'unique(date_start, date_stop, year_id)',
+         'Academic Week should be unique!'),
+        ('week_position_unique', 'unique(position)',
+         'Academic Week position should be unique!')
+    ]
+
+
+    @api.constrains('year_id', 'date_start', 'date_stop')
+    def _check_year_limit(self):
+        '''Method to check year limit'''
+        if self.year_id and self.date_start and self.date_stop:
+            if (self.year_id.date_stop < self.date_stop or
+                    self.year_id.date_stop < self.date_start or
+                    self.year_id.date_start > self.date_start or
+                    self.year_id.date_start > self.date_stop):
+                raise ValidationError(_(
+        "Some of the weeks periods overlap or is not in the academic year!"))
+
+    @api.constrains('date_start', 'date_stop')
+    def check_weeks(self):
+        '''Method to check duration of date'''
+        if (self.date_stop and self.date_start and
+                self.date_stop < self.date_start):
+            raise ValidationError(_(
+        "End of Period date should be greater than Start of Periods Date!"))
+
+        """Check start date should be less than stop date."""
 
 
 class AcademicMonth(models.Model):
@@ -307,7 +379,7 @@ class SchoolStandard(models.Model):
                                 ('id', 'not in', self.ids)])
         if standard_search:
             raise ValidationError(_("Division and class should be unique!"))
-  
+
     def unlink(self):
         """Method to check unique standard."""
         for rec in self:
@@ -355,7 +427,7 @@ class SchoolSchool(models.Model):
                                 will be printed in this language.
                                 If not, it will be English.''')
     required_age = fields.Integer("Student Admission Age Required", default=6,
-                                  help='''Minimum required age for 
+                                  help='''Minimum required age for
                                   student admission''')
 
     @api.model
@@ -383,7 +455,7 @@ class SubjectSubject(models.Model):
                                    'subject_id', 'teacher_id', 'Teachers',
                                    help='Teachers of the following subject')
     standard_ids = fields.Many2many('standard.standard', string='Standards',
-                                    help='''Standards in which the 
+                                    help='''Standards in which the
                                     following subject taught''')
     standard_id = fields.Many2one('standard.standard', 'Class',
                                   help='''Class in which the following

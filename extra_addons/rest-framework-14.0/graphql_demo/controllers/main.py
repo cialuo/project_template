@@ -27,3 +27,13 @@ class GraphQLController(http.Controller, GraphQLControllerMixin):
     @http.route("/graphql/demo", auth="user", csrf=False)
     def graphql(self, **kwargs):
         return self._handle_graphql_request(schema)
+
+
+    GraphQLControllerMixin.patch_for_json("^/graphql/api/?$")
+
+    # The graphql route, for applications.
+    # Note csrf=False: you may want to apply extra security
+    # (such as origin restrictions) to this route.
+    @http.route("/graphql/api_key", auth="api_key", csrf=False)
+    def graphql(self, **kwargs):
+        return self._handle_graphql_request(schema)

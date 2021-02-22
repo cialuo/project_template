@@ -20,9 +20,8 @@
 from odoo import api, fields, models, _
 import base64, urllib
 from io import BytesIO
-import requests, base64, sys
+import requests, base64
 import os
-import odoo.netsvc
 
 #TODO find a good solution in order to roll back changed done on file system
 #TODO add the posibility to move from a store system to an other (example : moving existing image on database to file system)

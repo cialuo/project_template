@@ -2,7 +2,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-
+from dateutil.relativedelta import relativedelta
 
 class TimeTable(models.Model):
     """Defining model for time table."""
@@ -58,13 +58,20 @@ class TimeTable(models.Model):
                     raise ValidationError(_('''
                         Start and End Time should be less than 24 hours!'''))
 
-
+WEEK_DAYS = [('monday', 'Monday'),
+                                 ('tuesday', 'Tuesday'),
+                                 ('wednesday', 'Wednesday'),
+                                 ('thursday', 'Thursday'),
+                                 ('friday', 'Friday'),
+                                 ('saturday', 'Saturday'),
+                                 ('sunday', 'Sunday')]
 class TimeTableLine(models.Model):
     """Defining model for time table."""
 
     _description = 'Time Table Line'
     _name = 'time.table.line'
     _rec_name = 'table_id'
+    _order = "week_id asc,week_day asc,start_time asc"
 
     @api.constrains('teacher_id', 'subject_id')
     def check_teacher(self):
@@ -74,27 +81,39 @@ class TimeTableLine(models.Model):
             raise ValidationError(_('''
                 The subject %s is not assigned to teacher %s.'''
                 ) % (self.subject_id.name, self.teacher_id.name))
-
     teacher_id = fields.Many2one('school.teacher', 'Faculty Name',
                                  help="Select Teacher")
     subject_id = fields.Many2one('subject.subject', 'Subject Name',
                                  help="Select Subject")
     table_id = fields.Many2one('time.table', 'TimeTable')
+    week_id = fields.Many2one('academic.week', 'Week',
+                              help='Week Number')
     start_time = fields.Float('Start Time', required=True,
                               help="Time according to timeformat of 24 hours")
     end_time = fields.Float('End Time', required=True,
                             help="Time according to timeformat of 24 hours")
-    week_day = fields.Selection([('monday', 'Monday'),
-                                 ('tuesday', 'Tuesday'),
-                                 ('wednesday', 'Wednesday'),
-                                 ('thursday', 'Thursday'),
-                                 ('friday', 'Friday'),
-                                 ('saturday', 'Saturday'),
-                                 ('sunday', 'Sunday')], "Week day",
+    week_day = fields.Selection(WEEK_DAYS, "Week day",
                                 help='Select weekday for timetable')
     class_room_id = fields.Many2one('class.room', 'Room Number',
                                     help='''Class room in which time
                                     table would be followed''')
+    start_date = fields.Datetime('Start datetime', readonly=True, _compute='on_week_or_weekday_change', store=True)
+
+    @api.depends('week_id', 'week_day')
+    def on_week_or_weekday_change(self):
+        for rec in self:
+            start_date = rec.week_id.start_date
+            interval = [y[0] for y in WEEK_DAYS].index(rec.week_day)
+            rec.start_date = start_date + relativedelta(days=interval)
+
+    @api.onchange('table_id.year_id')
+    def onchange_table_year(self):
+        for rec in self:
+            return {
+                'domain': {
+                    'week_id': [('year_id','=', rec.table_id.year_id)]
+                }
+            }
 
     @api.constrains('teacher_id', 'class_room_id')
     def check_teacher_room(self):

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from openerp import models, fields, api
-from openerp.tools.float_utils import float_round
-from openerp.exceptions import ValidationError
-from openerp.addons import decimal_precision as dp
+from odoo import models, fields, api
+from odoo.tools.float_utils import float_round
+from odoo.exceptions import ValidationError
+from odoo.addons import decimal_precision as dp
 
 import logging
 
@@ -58,7 +58,6 @@ class ProductTemplate(models.Model):
         product_tmpl.product_variant_ids.write(vals)
         return product_tmpl
 
-    @api.multi
     def write(self, vals):
         nutrition = vals.get('nutrition', self.nutrition)
         norm_weight = vals.get('norm_weight', self.norm_weight)
@@ -66,7 +65,6 @@ class ProductTemplate(models.Model):
             raise ValidationError("Norm weight must be greater than 0")
         return super(ProductTemplate, self).write(vals)
 
-    @api.multi
     @api.constrains('portions')
     def _contrains_portions(self):
         """
@@ -77,7 +75,7 @@ class ProductTemplate(models.Model):
                 raise ValidationError("Portions must be greater than 0")
         return True
 
-    @api.multi
+    
     @api.onchange('norm_weight')
     def _compute_norm_factor(self):
         """
@@ -89,7 +87,7 @@ class ProductTemplate(models.Model):
             elif product.nutrition:
                 raise ValidationError("Norm weight must be greater than 0")
 
-    @api.multi
+    
     @api.onchange('portions', 'norm_factor', 'energy_joule', 'energy_calories', 'fat_total', 'fat_saturated', 'carbohydrate', 'carbo_sugars', 'roughage', 'protein', 'sodium')
     def _compute_facts_uom(self):
         """
@@ -117,7 +115,7 @@ class ProductTemplate(models.Model):
                     product.protein_portion = product.protein_uom / product.portions
                     product.sodium_portion = product.sodium_uom / product.portions
 
-    @api.multi
+    
     @api.onchange('portions', 'norm_weight')
     def onchange_portions(self):
         """
@@ -127,7 +125,7 @@ class ProductTemplate(models.Model):
             if product.norm_weight > 0 and product.portions > 0:
                 product.portion_grams = product.norm_weight / product.portions
 
-    @api.multi
+    
     @api.onchange('portion_grams')
     def onchange_portion_grams(self):
         """
@@ -137,7 +135,7 @@ class ProductTemplate(models.Model):
             if product.norm_weight > 0 and product.portion_grams > 0:
                 product.portions = product.norm_weight / product.portion_grams
 
-    @api.multi
+    
     @api.onchange('energy_joule')
     def onchange_energy_joule(self):
         """
@@ -147,7 +145,7 @@ class ProductTemplate(models.Model):
             if product.energy_joule > 0:
                 product.energy_calories = product.energy_joule / JOULES_CALORIES_FACTOR
 
-    @api.multi
+    
     @api.onchange('energy_calories')
     def onchange_energy_calories(self):
         """
@@ -202,7 +200,7 @@ class ProductProduct(models.Model):
     def create(self, vals):
         return super(ProductProduct, self).create(vals)
 
-    @api.multi
+    
     def write(self, vals):
         product = super(ProductProduct, self).write(vals)
         if vals.get('norm_weight') and self.norm_weight == 0:
@@ -211,7 +209,7 @@ class ProductProduct(models.Model):
             raise ValidationError("Norm weight must be greater than 0")
         return product
 
-    @api.multi
+    
     @api.constrains('portions')
     def _contrains_portions(self):
         """
@@ -222,7 +220,7 @@ class ProductProduct(models.Model):
                 raise ValidationError("Portions must be greater than 0")
         return True
 
-    @api.multi
+    
     @api.depends('norm_weight')
     def _compute_norm_factor(self):
         """
@@ -234,7 +232,7 @@ class ProductProduct(models.Model):
             elif product.nutrition:
                 raise ValidationError("Norm weight must be greater than 0")
 
-    @api.multi
+    
     @api.onchange('portions', 'norm_factor', 'energy_joule', 'energy_calories', 'fat_total', 'fat_saturated', 'carbohydrate', 'carbo_sugars', 'roughage', 'protein', 'sodium')
     def _compute_facts_uom(self):
         """
@@ -262,7 +260,7 @@ class ProductProduct(models.Model):
                     product.protein_portion = product.protein_uom / product.portions
                     product.sodium_portion = product.sodium_uom / product.portions
 
-    @api.multi
+    
     @api.onchange('portions', 'norm_weight')
     def onchange_portions(self):
         """
@@ -272,7 +270,7 @@ class ProductProduct(models.Model):
             if product.norm_weight > 0 and product.portions > 0:
                 product.portion_grams = product.norm_weight / product.portions
 
-    @api.multi
+    
     @api.onchange('portion_grams')
     def onchange_portion_grams(self):
         """
@@ -282,7 +280,7 @@ class ProductProduct(models.Model):
             if product.norm_weight > 0 and product.portion_grams > 0:
                 product.portions = product.norm_weight / product.portion_grams
 
-    @api.multi
+    
     @api.onchange('energy_joule')
     def onchange_energy_joule(self):
         """
@@ -292,7 +290,7 @@ class ProductProduct(models.Model):
             if product.energy_joule > 0:
                 product.energy_calories = product.energy_joule / JOULES_CALORIES_FACTOR
 
-    @api.multi
+    
     @api.onchange('energy_calories')
     def onchange_energy_calories(self):
         """

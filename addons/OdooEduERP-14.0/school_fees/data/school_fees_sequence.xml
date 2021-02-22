@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 <odoo>
-    <data noupdate="1">
+    <data>
 
         <!-- Sequences For student.payslip -->
 

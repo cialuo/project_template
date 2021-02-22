@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!-- Copyright 2018 Nova Code (http://www.novacode.nl)
+License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
+
+<odoo>
+    <data>
+	<record id="view_celery_example_tree" model="ir.ui.view">
+	    <field name="name">celery.example.tree</field>
+	    <field name="model">celery.example</field>
+	    <field name="arch" type="xml">
+                <tree string="Celery Example">
+                    <field name="name"/>
+                    <field name="lines"/>
+                    <button name="action_task_with_reference" type="object" string="Task with Reference"/>
+                    <button name="action_task_immediate" type="object" string="Task transaction strategy=immediate"/>
+                    <button name="action_task_with_error" type="object" string="Task with Error/Failure"/>
+                    <button name="action_task_queue_default" type="object" string="Task queue=default"/>
+                    <button name="action_task_queue_high" type="object" string="Task queue=high"/>
+                    <button name="action_task_queue_low" type="object" string="Task queue=low"/>
+                </tree>
+            </field>
+        </record>
+        
+	<record id="view_celery_example_form" model="ir.ui.view">
+	    <field name="name">celery.example.form</field>
+	    <field name="model">celery.example</field>
+	    <field name="type">form</field>
+	    <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <button name="refresh_view" class="pull-right" type="object" icon="fa-retweet">Refresh view</button>
+                        <div class="oe_title">
+                            <h1><field name="name" nolabel="1"/></h1>
+                        </div>
+                        <button name="action_task_with_reference" type="object" string="Task with Reference"/>
+                        <button name="action_task_immediate" type="object" string="Task transaction strategy=immediate"/>
+                        <button name="action_task_with_error" type="object" string="Task with Error/Failure"/>
+                        <button name="action_task_queue_default" type="object" string="Task default"/>
+                        <button name="action_task_queue_high" type="object" string="Task queue=high"/>
+                        <button name="action_task_queue_low" type="object" string="Task queue=low"/>
+                        <notebook>
+                            <page name="lines" string="Lines">
+                                <field name="lines">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="example_id"/>
+                                        <field name="create_date"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_celery_example" model="ir.actions.act_window">
+            <field name="name">Celery Example Tasks</field>
+            <field name="res_model">celery.example</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_celery_example_tree"/>
+        </record>
+        
+        <menuitem
+            id="menu_celery_example"
+            name="Example Tasks"
+            parent="celery.menu_celery_root"
+            sequence="900"
+            action="action_celery_example"/>
+    </data>
+</odoo>

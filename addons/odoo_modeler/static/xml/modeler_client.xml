@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <!-- modeler client -->
+    <t t-name="funenc.modeler_client">
+        <div class="modeler_client" >
+            <div class="btn-group toolbox" style="padding: 10px; position: fixed; z-index: 100;">
+                <button type="button" class="add_table btn btn-default btn-xs">
+                    <span style="margin-right: 2px" class="add_table btn-secondary fa fa-add "/>new table
+                </button>
+                <button type="button" class="export_table btn btn-default btn-xs">
+                    <span style="margin-right: 2px" class="export_table btn-secondary fa fa-export "/>generate
+                </button>
+                <button type="button" class="export_project btn btn-default btn-xs">
+                    <span style="margin-right: 2px" class="export_project btn-secondary fa fa-export "/>export
+                </button>
+            </div>
+            <div class="modeler_container"/>
+        </div>
+    </t>
+</templates>

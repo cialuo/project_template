@@ -11,5 +11,5 @@
     "external_dependencies": {"python": ["graphene"]},
     "development_status": "Beta",
     "maintainers": ["sbidoul"],
-    "installable": False,
+    "installable": True,
 }

@@ -1,0 +1,18 @@
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="ir_attachment_company_inherit_form_view">
+        <field name="name">ir.attachment.doctype.inherit.form</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="document.view_document_file_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="write_date" position="after">
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </field>
+            </data>
+        </field>
+    </record>
+
+</data>
+</openerp>

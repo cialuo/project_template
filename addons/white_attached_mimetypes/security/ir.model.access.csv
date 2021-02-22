@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_white_mimetype_user,white.mimetype.user,model_white_mimetype,base.group_user,1,1,1,1

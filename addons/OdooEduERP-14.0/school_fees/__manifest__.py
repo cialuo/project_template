@@ -19,8 +19,10 @@
         "report/student_payslip.xml",
         "report/student_fees_register.xml",
         "report/report_view.xml",
+        'views/assets.xml',
     ],
     "demo": ["demo/school_fees_demo.xml"],
     "installable": True,
     "application": True,
+    'qweb': ['static/src/xml/templates.xml'],
 }

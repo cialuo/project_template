@@ -37,3 +37,6 @@ marshmallow-objects>=2.0.0
 parse-accept-language
 pyquerystring
 polib
+zoomus
+pika
+pdfminer.six

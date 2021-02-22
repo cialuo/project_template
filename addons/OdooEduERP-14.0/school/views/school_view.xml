@@ -423,6 +423,7 @@
             <form string="Academic Years">
                 <header>
                     <button name="generate_academicmonth" type="object" string="Generate Months"/>
+                    <button name="generate_academic_week" type="object" string="Generate Weeks"/>
                 </header>
                 <sheet>
                     <group col="4" colspan="4">
@@ -449,6 +450,28 @@
                                     <group col="4" colspan="4">
                                         <field name="name" placeholder="Name" />
                                         <field name="code" placeholder="Code" />
+                                        <field name="date_start" placeholder="Start Date" />
+                                        <field name="date_stop" placeholder="Stop Date" />
+                                        <field name="description" colspan="4" placeholder="Description"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Weeks">
+                            <field name="week_ids" nolabel="1" colspan="4"
+                                    options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}">
+                                <tree string="Weeks">
+                                    <field name="name" />
+                                    <field name="code" />
+                                    <field name="position" />
+                                    <field name="date_start" />
+                                    <field name="date_stop" />
+                                </tree>
+                                <form string="Weeks">
+                                    <group col="4" colspan="4">
+                                        <field name="name" placeholder="Name" />
+                                        <field name="code" placeholder="Code" />
+                                        <field name="position" placeholder="Position" />
                                         <field name="date_start" placeholder="Start Date" />
                                         <field name="date_stop" placeholder="Stop Date" />
                                         <field name="description" colspan="4" placeholder="Description"/>
@@ -503,6 +526,19 @@
         <field name="model">academic.month</field>
         <field name="arch" type="xml">
             <tree string="Months">
+                <field name="name" />
+                <field name="code" />
+                <field name="date_start" />
+                <field name="date_stop" />
+                <field name="year_id" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_academic_week_tree" model="ir.ui.view">
+        <field name="name">academic.week.tree</field>
+        <field name="model">academic.week</field>
+        <field name="arch" type="xml">
+            <tree string="Weeks">
                 <field name="name" />
                 <field name="code" />
                 <field name="date_start" />
@@ -827,6 +863,12 @@
         <field name="res_model">academic.month</field>
         <field name="view_mode">tree,form</field>
     </record>
+    <!-- Action Of Form & Tree Views Of Academic Week Information -->
+    <record id="action_academic_week_form" model="ir.actions.act_window">
+        <field name="name">Weeks</field>
+        <field name="res_model">academic.week</field>
+        <field name="view_mode">tree,form</field>
+    </record>
     <!-- Action Of Form & Tree Views Of Standard Medium Information -->
     <record id="action_standard_medium_form" model="ir.actions.act_window">
         <field name="name">Medium</field>
@@ -967,6 +1009,7 @@
     <menuitem id="menu_academic_year_form" name="Academic Years" parent="menu_configuration" />
     <menuitem id="menu_academic_year_sub_form" name="Years" parent="menu_academic_year_form" action="action_academic_year_form" />
     <menuitem id="menu_academic_month_form" name="Months" parent="menu_academic_year_form" action="action_academic_month_form" />
+    <menuitem id="menu_academic_week_form" name="Weeks" parent="menu_academic_year_form" action="action_academic_week_form" />
     <!-- MenuItem For Configurations->Standards -->
     <menuitem id="menu_school_standard_form" name="Standards" parent="menu_configuration" />
     <menuitem id="menu_sub_school_standard_form" name="Classes" parent="menu_school_standard_form" action="action_school_standard_form" />

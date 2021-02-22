@@ -270,6 +270,10 @@
                     <separator orientation="vertical"/>
                     <filter string="States" name="state" context="{'group_by':'state'}"/>
                 </group>
+                <group string="Filters">
+                    <filter string="Paid invoices" name="filter_paid_invoiced" context="{'paid_invoiced': True}" />
+                    <separator />
+                </group>
             </search>
         </field>
     </record>

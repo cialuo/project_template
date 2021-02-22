@@ -2,7 +2,8 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-
+import logging
+_logger = logging.getLogger(__name__)
 
 class StudentFeesRegister(models.Model):
     """Student fees Register"""
@@ -464,6 +465,13 @@ class StudentPayslip(models.Model):
                     "currency_id": rec.company_id.currency_id.id or False,
                 }
             )
+            # rec.action_move_create()
+
+    @api.model
+    def js_python_method(self, model_name, active_id):
+        return {
+            'hello': 'world'
+        }
 
     def invoice_view(self):
         """View number of invoice of student"""
@@ -487,6 +495,7 @@ class StudentPayslip(models.Model):
         return action
 
     def action_move_create(self):
+        _logger.info('*******(*(*((*(*****************************************')
         cur_obj = self.env["res.currency"]
         move_obj = self.env["account.move"]
         move_line_obj = self.env["account.move.line"]
@@ -632,6 +641,12 @@ class StudentPayslip(models.Model):
                 "res_id": account_invoice_id.id,
                 "context": {},
             }
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        if self._context.get('paid_invoiced'):
+            args += [('move_id.payment_state', '=', 'paid')]
+
+        return super(StudentPayslip, self).search(args, offset=offset, limit=limit, order=order, count=count)
 
 
 class StudentPayslipLineLine(models.Model):
@@ -664,6 +679,47 @@ class AccountMove(models.Model):
         string="Student Payslip",
         help="Select student payslip",
     )
+
+    def action_invoice_paid(self):
+        res = super(AccountMove, self).action_invoice_paid()
+        curr_date = fields.Date.today()
+        vals = {}
+        for invoice in self:
+            rec = self.env['account.payment'].search([('ref','=', invoice.payment_reference)])[0]
+            vals.update({"due_amount": invoice.amount_residual})
+            if rec and invoice.student_payslip_id and invoice.payment_state == "paid":
+                # Calculate paid amount and changes state to paid
+                fees_payment = (
+                    invoice.student_payslip_id.paid_amount + rec.amount
+                )
+                vals.update(
+                    {
+                        "state": "paid",
+                        "payment_date": curr_date,
+                        "move_id": invoice.id or False,
+                        "paid_amount": fees_payment,
+                        "due_amount": invoice.amount_residual,
+                    }
+                )
+            if (
+                invoice.student_payslip_id
+                and invoice.payment_state == "not_paid"
+            ):
+                # Calculate paid amount and due amount and changes state
+                # to pending
+                fees_payment = (
+                    invoice.student_payslip_id.paid_amount + rec.amount
+                )
+                vals.update(
+                    {
+                        "state": "pending",
+                        "due_amount": invoice.amount_residual,
+                        "paid_amount": fees_payment,
+                    }
+                )
+            invoice.student_payslip_id.write(vals)
+        return res
+
 
 
 class AccountPayment(models.Model):

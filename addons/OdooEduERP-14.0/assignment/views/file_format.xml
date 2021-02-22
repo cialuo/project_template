@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+
+<odoo>
+    <!-- Tree View Of Teacher Assignment Information -->
+    <record id="view_school_teacher_assignment_tree" model="ir.ui.view">
+        <field name="name">school.file.format</field>
+        <field name="model">file.format</field>
+        <field name="arch" type="xml">
+            <tree string="File format">
+                <field name="name" />
+                <field name="teacher_id" select="1"/>
+                <field name="standard_id"/>
+                <field name="subject_id" />
+                <field name="assign_date" />
+                <field name="due_date"/>
+                <field name="state" select="1" widget="badge" decoration-info="state in ('draft')"
+                                                                decoration-success="state in ('active','done')"/>
+            </tree>
+        </field>
+    </record>
+</odoo>
