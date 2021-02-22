@@ -77,16 +77,16 @@ class Meeting(models.Model):
         ('end_date', 'End date')
     ], string='Recurrence Termination', default='count')
 
-    @api.depends('start_datetime')
-    def _onchange_start_datetime_meeting(self):
+    @api.depends('start')
+    def _onchange_start_meeting(self):
         self._compute_todays_calendar_events()
 
 
     def _compute_todays_calendar_events(self):
         self.todays_meeting = ''
         if not self.create_uid or (self.create_uid and self.create_uid.id == self.env.user.id):
-            if not self.recurrency and self.start_datetime and self.is_zoom_meeting:
-                local_date_time = self._datetime_localize(self.start_datetime)
+            if not self.recurrency and self.start and self.is_zoom_meeting:
+                local_date_time = self._datetime_localize(self.start)
                 local_time =datetime.strptime(local_date_time, "%Y-%m-%d %H:%M:%S")
                 start_date = local_time.strftime("%Y-%m-%d").strip() + " 00:00:00"
                 tz = pytz.timezone(self.env.user.tz)
@@ -98,11 +98,11 @@ class Meeting(models.Model):
                 en_date_strip = datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S")
                 end_tz_localize = tz.localize(en_date_strip, is_dst=None)
                 utc_end_date = end_tz_localize.astimezone(pytz.utc).strftime("%Y-%m-%d %H:%M:%S")
-                todays_meeting = self.env['calendar.event'].search([('id','!=',self.id),('is_zoom_meeting','=',True),('create_uid','=',self.env.user.id),('recurrency','!=',True),('start_datetime','>=',utc_from_date),('start_datetime','<',utc_end_date)])
+                todays_meeting = self.env['calendar.event'].search([('id','!=',self.id),('is_zoom_meeting','=',True),('create_uid','=',self.env.user.id),('recurrency','!=',True),('start','>=',utc_from_date),('start','<',utc_end_date)])
                 if todays_meeting:
                     todays_meeting_description='<font size=4 color=red><b>Normal Zoom Meetings created for the day</b></font>'+"<br/>"+"<br/>"
                     for today_meeting in todays_meeting:
-                        meeting_date=self._datetime_localize_user_format(today_meeting.start_datetime)
+                        meeting_date=self._datetime_localize_user_format(today_meeting.start)
                         description=''
                         description+= "<b>Meeting Subject: </b>" + today_meeting.name + "<br/>" + "<b>Time: </b>" + str(meeting_date) +"<br/>" + "<b>Duration: </b>" + str(today_meeting.duration) +"<br/>"+"<br/>"
                         todays_meeting_description+=description
@@ -407,23 +407,23 @@ class Meeting(models.Model):
         zoom_occurrence_list = []
         for rec in records:
             for occurrence in occurrence_list:
-                zoom_start_datetime = datetime.strptime(occurrence['start_time'], "%Y-%m-%dT%H:%M:%SZ")
-                zoom_start_datetime_str = zoom_start_datetime.strftime("%Y-%m-%d %H:%M")
-                zoom_start_datetime = datetime.strptime(zoom_start_datetime_str, "%Y-%m-%d %H:%M")
-                start_datetime = rec.start_datetime
-                is_var_str = isinstance(start_datetime, str)
+                zoom_start = datetime.strptime(occurrence['start_time'], "%Y-%m-%dT%H:%M:%SZ")
+                zoom_start_str = zoom_start.strftime("%Y-%m-%d %H:%M")
+                zoom_start = datetime.strptime(zoom_start_str, "%Y-%m-%d %H:%M")
+                start = rec.start
+                is_var_str = isinstance(start, str)
                 if is_var_str != True:
-                    start_datetime_str = start_datetime.strftime("%Y-%m-%dT%H:%M:%SZ")
-                    start_datetime = self.convert_datetime_timezone(start_datetime_str, res_obj.event_tz)
+                    start_str = start.strftime("%Y-%m-%dT%H:%M:%SZ")
+                    start = self.convert_datetime_timezone(start_str, res_obj.event_tz)
                 else:
-                    start_datetime = datetime.strptime(start_datetime, "%Y-%m-%d %H:%M:%S")
-                    start_datetime = start_datetime.strftime("%Y-%m-%dT%H:%M:%SZ")
-                    start_datetime = self.convert_datetime_timezone(start_datetime, res_obj.event_tz)
-                start_datetime = datetime.strptime(start_datetime, "%Y-%m-%dT%H:%M:%SZ")
-                start_datetime_str = start_datetime.strftime("%Y-%m-%d %H:%M")
-                start_datetime = datetime.strptime(start_datetime_str, "%Y-%m-%d %H:%M")
+                    start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S")
+                    start = start.strftime("%Y-%m-%dT%H:%M:%SZ")
+                    start = self.convert_datetime_timezone(start, res_obj.event_tz)
+                start = datetime.strptime(start, "%Y-%m-%dT%H:%M:%SZ")
+                start_str = start.strftime("%Y-%m-%d %H:%M")
+                start = datetime.strptime(start_str, "%Y-%m-%d %H:%M")
 
-                if start_datetime == zoom_start_datetime:
+                if start == zoom_start:
                     zoom_occurrence_list.append({'occurrence_id': occurrence['occurrence_id'], 'id': rec.id})
         for rec in records:
             for occurrence in occurrence_list:
@@ -498,7 +498,7 @@ class Meeting(models.Model):
                 final_datetime = res.final_date
             if final_datetime:
                 is_str_final_date = isinstance(final_datetime, str)
-                final_time = res.start_datetime.time()
+                final_time = res.start.time()
                 if str(is_str_final_date) != "True":
                     final_date = final_datetime
                     final_datetime = datetime.combine(final_datetime, final_time)
@@ -543,15 +543,15 @@ class Meeting(models.Model):
                         "monthly_week": res.byday,
                         "monthly_week_day": weeklist,
                     })
-            start_datetime = res.start_datetime
-            start_datetime_str = start_datetime.strftime("%Y-%m-%dT%H:%M:%SZ")
-            start_datetime = self.convert_datetime_timezone(start_datetime_str,res.event_tz)
-            start_datetime = datetime.strptime(start_datetime, "%Y-%m-%dT%H:%M:%SZ")
+            start = res.start
+            start_str = start.strftime("%Y-%m-%dT%H:%M:%SZ")
+            start = self.convert_datetime_timezone(start_str,res.event_tz)
+            start = datetime.strptime(start, "%Y-%m-%dT%H:%M:%SZ")
             kwargs = {
                 'topic': res.name,
                 'type': meeting_type,
                 "password": res.meeting_pswd,
-                "start_time": start_datetime,
+                "start_time": start,
                 "duration": duration,
                 "timezone": res.event_tz,
                 "agenda": res.description or '',
@@ -671,7 +671,7 @@ class Meeting(models.Model):
             if self._context.get('zoom_meeting_create') != True:
                 if values.get('is_zoom_meeting') and values['is_zoom_meeting'] or meeting.is_zoom_meeting != True:
                     if self.env.user.company_id.meeting_event_mail_notification == True:
-                        if (values.get('start_date') or values.get('start_datetime') or
+                        if (values.get('start_date') or values.get('start') or
                                 (values.get('start') and self.env.context.get('from_ui'))) and values.get('active', True):
                             for meeting in self:
                                 if meeting.attendee_ids:
@@ -705,7 +705,7 @@ class Meeting(models.Model):
                     if self.env.user.company_id.meeting_event_mail_notification == True:
                         if (values.get('is_zoom_meeting') and values['is_zoom_meeting']) or recurrency_change or values.get(
                                 'meeting_pswd') or values.get('event_tz') or (
-                                values.get('start_date') or values.get('start_datetime') or  values.get('update_single_instance')==True or (
+                                values.get('start_date') or values.get('start') or  values.get('update_single_instance')==True or (
                             values.get('start') and self.env.context.get('from_ui'))) and values.get('active', True) :
                             if meeting.attendee_ids:
                                 meeting.attendee_ids._send_mail_notiy_to_attendees(meeting,
@@ -759,7 +759,7 @@ class Meeting(models.Model):
         if 'auto_recording' in values:
             auto_recording_val = True
         event_tz = values.get('event_tz') and values['event_tz']
-        start_datetime = values.get('start_datetime') and values['start_datetime']
+        start = values.get('start') and values['start']
         su = False
         if 'su' in values:
             su = True
@@ -807,7 +807,7 @@ class Meeting(models.Model):
         enable_waiting_room=False
         if 'enable_waiting_room' in values:
             enable_waiting_room = True
-        if is_zoom_meeting or recurrency or rrule_type or duration or auto_recording_val or event_tz or start_datetime or su or mo \
+        if is_zoom_meeting or recurrency or rrule_type or duration or auto_recording_val or event_tz or start or su or mo \
             or tu or we or th or fr or sa or week_list or final_datetime or interval or end_type or count or month_by \
             or day or  byday or name or meeting_pswd or description or video_host or enable_join_bf_host or mute_participants_upon_entry \
             or video_participant or enable_waiting_room :
@@ -840,19 +840,19 @@ class Meeting(models.Model):
         event_tz = values.get('event_tz') and values['event_tz'] or self.event_tz
         real_id = calendar_id2real_id(self.id)
         meeting_origin = self.browse(real_id)
-        start_datetime=meeting_origin.start_datetime
+        start=meeting_origin.start
         final_time=''
-        if start_datetime:
-            is_var_str = isinstance(start_datetime, str)
+        if start:
+            is_var_str = isinstance(start, str)
             if str(is_var_str) == "True":
 
-                start_datetime = datetime.strptime(start_datetime, "%Y-%m-%d %H:%M:%S")
-                final_time =start_datetime.time()
+                start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S")
+                final_time =start.time()
             else:
-                final_time = start_datetime.time()
-        start_datetime_str = start_datetime.strftime("%Y-%m-%dT%H:%M:%SZ")
-        start_datetime = self.convert_datetime_timezone(start_datetime_str, event_tz)
-        start_datetime = datetime.strptime(start_datetime, "%Y-%m-%dT%H:%M:%SZ")
+                final_time = start.time()
+        start_str = start.strftime("%Y-%m-%dT%H:%M:%SZ")
+        start = self.convert_datetime_timezone(start_str, event_tz)
+        start = datetime.strptime(start, "%Y-%m-%dT%H:%M:%SZ")
         weekdays_list = []
         if values.get('mo') and values['mo'] or self.mo == True:
             weekdays_list.append(2)
@@ -945,7 +945,7 @@ class Meeting(models.Model):
             'topic': values.get('name') or self.name or '',
             'type': meeting_type,
             'password': values.get('meeting_pswd') or self.meeting_pswd or '',
-            "start_time": start_datetime,
+            "start_time": start,
             "duration": duration_in_min,
             "timezone": event_tz,
             "agenda": values.get('description') or self.description or '',
@@ -1041,7 +1041,7 @@ class Meeting(models.Model):
             if meeting.is_zoom_meeting==True:
                 if self.env.user.id != meeting.create_uid.id and self.env.user.id !=self.env.user.company_id.zoom_admin_user_id.id:
                     raise UserError("You didn't have permission to cancel this meeting.")
-                date = self._datetime_localize(meeting.start_datetime or meeting.start_date)
+                date = self._datetime_localize(meeting.start or meeting.start_date)
                 self.delete_zoom_meeting(meeting)
                 if self.env.user.company_id.meeting_event_mail_notification == True and  self._context.get('no_invite_mail')!=True :
                     if meeting.attendee_ids:
@@ -1439,7 +1439,7 @@ class ZoomMeetExternalParticipant(models.Model):
                                 'mimetype': 'text/calendar',
                                 'datas': base64.b64encode(ics_file)})
                     ]
-                mail_ids.append(invitation_template.with_context(date = meeting.start_datetime or meeting.start_date).send_mail(participant.id, email_values=email_values,
+                mail_ids.append(invitation_template.with_context(date = meeting.start or meeting.start_date).send_mail(participant.id, email_values=email_values,
                                                               notif_layout='mail.mail_notification_light'))
         if force_send and mail_ids:
             res = self.env['mail.mail'].browse(mail_ids).send()
@@ -1525,7 +1525,7 @@ class Attendee(models.Model):
                                 'mimetype': 'text/calendar',
                                 'datas': base64.b64encode(ics_file)})
                     ]
-                mail_ids.append(invitation_template.with_context(date = meeting.start_datetime or meeting.start_date).send_mail(attendee.id, email_values=email_values,
+                mail_ids.append(invitation_template.with_context(date = meeting.start or meeting.start_date).send_mail(attendee.id, email_values=email_values,
                                                               notif_layout='mail.mail_notification_light'))
 
         if force_send and mail_ids:
