@@ -28,6 +28,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./ci
+          context: ./
+          file: ./Dockerfile.ci
           push: true
           tags: checkraiser/odoo-14.0.1.2:ci
