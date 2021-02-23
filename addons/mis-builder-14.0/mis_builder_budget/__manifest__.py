@@ -22,7 +22,7 @@
         "security/mis_budget_by_account.xml",
         "views/mis_budget_by_account.xml",
     ],
-    "installable": False,
+    "installable": True,
     "development_status": "Production/Stable",
     "maintainers": ["sbidoul"],
 }

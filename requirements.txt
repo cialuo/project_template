@@ -4,3 +4,4 @@ pandas
 sodapy
 num2words
 responses
+simplejson
