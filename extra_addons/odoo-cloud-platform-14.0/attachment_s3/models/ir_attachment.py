@@ -51,10 +51,10 @@ class IrAttachment(models.Model):
         if host and not urlsplit(host).scheme:
             host = 'https://%s' % host
 
-        region_name = os.environ.get('AWS_REGION')
-        access_key = os.environ.get('AWS_ACCESS_KEY_ID', 'minio')
-        secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY', 'minio123')
-        bucket_name = name or os.environ.get('AWS_BUCKETNAME', 'test-odoo-1')
+        region_name = os.environ.get('AWS_REGION', 'us-east-1')
+        access_key = os.environ.get('AWS_ACCESS_KEY_ID', 'AKIAWQX5J2KUFDCJIFH4')
+        secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY', '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')
+        bucket_name = name or os.environ.get('AWS_BUCKETNAME', 's3backuphpu')
 
         params = {
             'aws_access_key_id': access_key,
