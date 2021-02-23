@@ -3,20 +3,23 @@
 
 <odoo>
     <!-- Tree View Of Teacher Assignment Information -->
-    <record id="view_school_teacher_assignment_tree" model="ir.ui.view">
-        <field name="name">school.file.format</field>
+    <record id="view_file_format_tree" model="ir.ui.view">
+        <field name="name">school.file.format.tree</field>
         <field name="model">file.format</field>
         <field name="arch" type="xml">
             <tree string="File format">
                 <field name="name" />
-                <field name="teacher_id" select="1"/>
-                <field name="standard_id"/>
-                <field name="subject_id" />
-                <field name="assign_date" />
-                <field name="due_date"/>
-                <field name="state" select="1" widget="badge" decoration-info="state in ('draft')"
-                                                                decoration-success="state in ('active','done')"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="view_file_format_form" model="ir.ui.view">
+        <field name="name">school.file.format.form</field>
+        <field name="model">file.format</field>
+        <field name="arch" type="xml">
+            <form string="File format">
+                <field name="name" />
+            </form>
         </field>
     </record>
 </odoo>
