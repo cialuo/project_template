@@ -1,0 +1,67 @@
+version: '3'
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - odoo_db_log:/tmp/pg_log
+      - odoo_db_1:/var/lib/postgresql/data
+    ports:
+      - 5432/tcp
+    environment:
+      POSTGRES_PASSWORD: odoo
+      POSTGRES_USER:  odoo
+      POSTGRES_DB: postgres
+  odoo:
+    restart: always
+    image: checkraiser/odoo-14.0.1.2
+    command: bash -c "odoo --without-demo=all -i web,base,queue_job,ormcache_redis,s3_attachment,auth_api_key --addons-path=/mnt/addons,/mnt/extra_addons,/mnt/extra_addons/server-auth-14.0,/mnt/extra_addons/odoo-cloud-platform-14.0,/mnt/extra_addons/queue-14.0,/mnt/extra_addons/search-engine-14.0,/mnt/extra_addons/reporting-engine-14.0,/mnt/extra_addons/server-ux-14.0,/mnt/extra_addons/server-env-14.0,/mnt/extra_addons/connector-14.0,/mnt/extra_addons/rest-framework-14.0,/mnt/extra_addons/server-tools-14.0,/mnt/extra_addons/pms-14.0,/mnt/extra_addons/project-14.0,/mnt/extra_addons/project-reporting-13.0,/mnt/extra_addons/storage-14.0,/mnt/extra_addons/fleet-13.0,/mnt/extra_addons/helpdesk-13.0,/mnt/addons/odoo-enterprise,/mnt/extra_addons/web-13.0,/mnt/addons/OdooEduERP-14.0,/mnt/extra_addons/account-financial-tools-13.0,/mnt/extra_addons/bank-payment-14.0,/mnt/addons/commission-13.0,/mnt/addons/transport-management-system-13.0,/mnt/addons/HRMS-14/core,/mnt/addons/HRMS-14/advanced_salary,/mnt/addons/HRMS-14/appraisal,/mnt/addons/HRMS-14/attendance,/mnt/addons/HRMS-14/branch_transfer,/mnt/addons/HRMS-14/checklist,/mnt/addons/HRMS-14/dashboard,/mnt/addons/HRMS-14/disciplinary_tracking,/mnt/addons/HRMS-14/entry_exit,/mnt/addons/HRMS-14/history,/mnt/addons/HRMS-14/holidays_approval,/mnt/addons/HRMS-14/info,/mnt/addons/HRMS-14/insurance,/mnt/addons/HRMS-14/loan,/mnt/addons/HRMS-14/loan_accounting,/mnt/addons/HRMS-14/overtime,/mnt/addons/HRMS-14/reminder,/mnt/addons/HRMS-14/resignation,/mnt/addons/HRMS-14/appraisal,/mnt/addons/HRMS-14/utils,/mnt/addons/HRMS-14/vacation,/mnt/addons/HRMS-14/service_request,/mnt/addons/HRMS-14/background,/mnt/extra_addons/server-backend-14.0,/mnt/addons/mis-builder-14.0,/mnt/addons/medical-fhir-13.0 -d odoo1 --smtp=mail --smtp-port=25"
+    depends_on:
+      - db
+      - redis
+      - statsd
+    ports:
+      - "8069:8069/tcp"
+      - "8072:8072/tcp"
+    volumes:
+      - odoo_data_2:/var/lib/odoo
+    environment: 
+      - ODOO_LOGGING_JSON=1
+      - ODOO_SESSION_REDIS=1
+      - ODOO_SESSION_REDIS_HOST=redis
+      - ODOO_SESSION_REDIS_PORT=6379
+      - ODOO_SESSION_REDIS_PREFIX=hpu
+      - ODOO_SESSION_REDIS_EXPIRATION=86400
+      - ODOO_SESSION_REDIS_EXPIRATION_ANONYMOUS=3600
+      - ODOO_STATSD=1
+      - STATSD_HOST=statsd
+      - STATSD_HOST=8125
+      - STATSD_CUSTOMER=hpu
+      - STATSD_ENVIRONMENT=dev
+      - ODOO_QUEUE_JOB_PORT=8072
+  pgweb:
+    image: sosedoff/pgweb
+    ports:
+      - 8018:8081
+    environment:
+      - DATABASE_URL=postgres://odoo:odoo@db:5432/postgres?sslmode=disable
+    depends_on:
+      - db
+  redis:
+    image: redis:3
+  statsd:
+    image: hopsoft/graphite-statsd
+    ports:
+      - "8080:80"
+      - "8081:81"
+      - "2003-2004:2003-2004"
+      - "2023-2024:2023-2024"
+      - "8125:8125/udp"
+      - "8126:8126"
+volumes:
+  odoo_db_log:
+    driver: local
+  odoo_data_2:
+    driver: local
+    driver: local
+  odoo_db_1:
+    driver: local
