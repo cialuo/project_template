@@ -45,7 +45,7 @@ class IrAttachment(models.Model):
         from the environment variable ``AWS_BUCKETNAME`` will be read.
 
         """
-        host = os.environ.get('AWS_HOST', 'http://minio:9000')
+        host = os.environ.get('AWS_HOST')
 
         # Ensure host is prefixed with a scheme (use https as default)
         if host and not urlsplit(host).scheme:
