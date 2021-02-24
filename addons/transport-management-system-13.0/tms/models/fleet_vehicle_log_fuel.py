@@ -18,8 +18,8 @@ except ImportError:
 
 class FleetVehicleLogFuel(models.Model):
     _name = 'fleet.vehicle.log.fuel'
-    _inherit = ['fleet.vehicle.log.fuel', 'mail.thread']
-    _order = "date desc,vehicle_id desc"
+    _inherit = ['mail.thread']
+    _order = "date desc"
 
     name = fields.Char()
     travel_id = fields.Many2one('tms.travel')

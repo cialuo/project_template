@@ -23,7 +23,7 @@ class FleetVehicleLogFuelPrepaid(models.Model):
         ('confirmed', 'Confirmed'),
         ('closet', 'Closet')],
         readonly=True,
-        tracking=True,
+        # track_visibility='onchange',
         default='draft')
     vendor_id = fields.Many2one('res.partner', string="Supplier")
     date = fields.Date(
